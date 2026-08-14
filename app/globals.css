@@ -4,6 +4,7 @@
   --paper: #e7e8e7;
   --paper-light: #f3f4f3;
   --paper-ivory: #faf9f5;
+  --paper-neutral: #f7f7f7;
   --ink: #17191b;
   --ink-soft: #505557;
   --ink-faint: #858b8d;
@@ -71,7 +72,7 @@ a { color: inherit; }
 .section-nav a.active { color: var(--paper-light); background: var(--blue); border-color: var(--blue); }
 
 .section { padding: 80px 0; border-bottom: 1px solid var(--rule); }
-.intro-section { background: var(--paper-light); }
+.intro-section { background: var(--paper-neutral); }
 .section-heading h2, .registration-section h2 { font-family: "STKaiti", "KaiTi", "Noto Serif SC", serif; font-size: clamp(34px, 4vw, 52px); line-height: 1.1; margin: 10px 0 0; letter-spacing: -.04em; }
 .section-heading > p:not(.section-mark), .split-heading > p { color: var(--ink-soft); max-width: 480px; margin: 12px 0 0; }
 .split-heading { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 34px; }
@@ -101,13 +102,13 @@ a { color: inherit; }
 .course-row li { break-inside: avoid; margin-bottom: 6px; padding-left: 14px; position: relative; }
 .course-row li::before { content: "•"; color: var(--blue); position: absolute; left: 0; }
 
-.schedule-section { background: var(--paper-light); }
+.schedule-section { background: var(--paper-neutral); }
 .schedule-grid { display: grid; grid-template-columns: .62fr 1.38fr; gap: 64px; }
 .timeline { position: relative; padding-left: 58px; }
 .timeline::before { content: ""; position: absolute; left: 20px; top: 22px; bottom: 22px; width: 1px; background: var(--blue); }
 .timeline article { position: relative; min-height: 124px; padding: 14px 8px 22px 22px; border: 0; border-bottom: 1px solid var(--rule); background: transparent; }
 .timeline article:last-child { border-bottom: 0; }
-.timeline-node { position: absolute; left: -58px; top: 22px; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--blue); background: var(--paper-light); color: var(--blue); border-radius: 50%; font: 500 11px/1 var(--font-geist-mono), monospace; z-index: 1; }
+.timeline-node { position: absolute; left: -58px; top: 22px; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--blue); background: var(--paper-neutral); color: var(--blue); border-radius: 50%; font: 500 11px/1 var(--font-geist-mono), monospace; z-index: 1; }
 .timeline time { color: var(--blue); font: 500 12px/1.6 var(--font-geist-mono), monospace; }
 .timeline h3, .timeline p { margin: 0; }
 .timeline h3 { font-family: "STSong", "Songti SC", serif; font-size: 21px; margin-top: 4px; font-weight: 600; }
@@ -128,7 +129,7 @@ a { color: inherit; }
 .benefit-options h3 { margin: 0; font-size: 18px; }
 .benefit-options p { font-size: 13px; }
 
-.audience-section { background: var(--paper-light); }
+.audience-section { background: var(--paper-neutral); }
 .audience-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; }
 .audience-card, .invite-card { border: 1px solid var(--rule); padding: 34px; position: relative; }
 .audience-card h2, .invite-card h3 { font-family: "STKaiti", "KaiTi", serif; margin: 12px 0; }
