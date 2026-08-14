@@ -56,9 +56,9 @@ a { color: inherit; }
 .hero-lead { max-width: 610px; font-size: 18px; line-height: 1.8; margin: 24px 0 0; }
 .hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 32px; }
 .hero-secondary-actions { display: grid; grid-template-columns: repeat(2, minmax(170px, 1fr)); align-items: stretch; gap: 24px; }
-.hero-utility-link { min-height: 38px; padding: 4px 0; border: 0; border-bottom: 1px solid rgba(12,60,128,.42); background: transparent; color: var(--blue); text-decoration: none; cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 28px; text-align: left; transition: border-color .16s ease, color .16s ease; }
+.hero-utility-link { min-height: 38px; padding: 4px 0; border: 0; background: transparent; color: var(--blue); text-decoration: none; cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 28px; text-align: left; transition: color .16s ease, opacity .16s ease; }
 .hero-utility-link i { font-style: normal; font-size: 19px; line-height: 1; transition: transform .18s ease; }
-.hero-utility-link:hover { color: var(--blue-deep); border-color: var(--blue-deep); }
+.hero-utility-link:hover { color: var(--blue-deep); }
 .hero-utility-link:hover i { transform: translateX(6px); }
 .hero-utility-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
 .section-nav { height: 60px; position: sticky; top: 0; z-index: 49; margin: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: rgba(243,244,243,.98); backdrop-filter: blur(10px); overflow-x: auto; scrollbar-width: none; }
@@ -70,6 +70,7 @@ a { color: inherit; }
 .section-nav a.active { color: var(--paper-light); background: var(--blue); border-color: var(--blue); }
 
 .section { padding: 80px 0; border-bottom: 1px solid var(--rule); }
+.intro-section { background: var(--paper-light); }
 .section-heading h2, .registration-section h2 { font-family: "STKaiti", "KaiTi", "Noto Serif SC", serif; font-size: clamp(34px, 4vw, 52px); line-height: 1.1; margin: 10px 0 0; letter-spacing: -.04em; }
 .section-heading > p:not(.section-mark), .split-heading > p { color: var(--ink-soft); max-width: 480px; margin: 12px 0 0; }
 .split-heading { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 34px; }
