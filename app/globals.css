@@ -58,7 +58,7 @@ a { color: inherit; }
 .hero-lead { max-width: 610px; font-size: 18px; line-height: 1.8; margin: 24px 0 0; }
 .hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 32px; }
 .hero-secondary-actions { display: grid; grid-template-columns: repeat(2, minmax(170px, 1fr)); align-items: stretch; gap: 24px; }
-.hero-utility-link { min-height: 38px; padding: 4px 0; border: 0; background: transparent; color: var(--blue); text-decoration: none; cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 28px; text-align: left; transition: color .16s ease, opacity .16s ease; }
+.hero-utility-link { min-height: 38px; padding: 4px 0; border: 0; background: transparent; color: var(--blue); text-decoration: none; cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: flex-start; gap: 10px; text-align: left; transition: color .16s ease, opacity .16s ease; }
 .hero-utility-link i { font-style: normal; font-size: 19px; line-height: 1; transition: transform .18s ease; }
 .hero-utility-link:hover { color: var(--blue-deep); }
 .hero-utility-link:hover i { transform: translateX(6px); }
