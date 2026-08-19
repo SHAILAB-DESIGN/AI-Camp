@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   title: "AI科研加速营｜书生·端砚",
   description: "面向科研人员的公益 AI 科研工作流训练计划。",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/intern-discovery-logo.png",
+    shortcut: "/intern-discovery-logo.png",
   },
 };
 
