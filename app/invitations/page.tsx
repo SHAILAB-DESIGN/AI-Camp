@@ -1,3 +1,4 @@
+import SiteFooter from "../components/site-footer";
 import SiteHeader from "../components/site-header";
 
 const sample = [
@@ -28,6 +29,7 @@ export default function InvitationsPage() {
           <small>当前榜单为视觉原型示例，正式上线后由有效报名数据实时生成。</small>
         </div>
       </div></section>
+      <SiteFooter />
     </main>
   );
 }

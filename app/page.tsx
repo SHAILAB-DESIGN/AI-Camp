@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { NotePencil } from "@phosphor-icons/react/dist/icons/NotePencil";
 import { ShareNetwork } from "@phosphor-icons/react/dist/icons/ShareNetwork";
+import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
 
@@ -102,7 +103,10 @@ export default function Home() {
         <div className="hero-inner">
           <div className="hero-copy">
             <p className="kicker">公益培训计划 / 在线学习</p>
-            <h1>AI 科研加速营</h1>
+            <h1 aria-label="AI 科研加速营">
+              <span className="hero-title-latin" aria-hidden="true">AI</span>
+              <span className="hero-title-cn" aria-hidden="true">科研加速营</span>
+            </h1>
             <p className="hero-en">AI Research Acceleration Camp</p>
             <p className="hero-lead">把 AI 真正带进文献调研、实验设计与科研写作，建立一套可上手、可复用的个人科研工作流。</p>
             <div className="hero-actions">
@@ -224,7 +228,11 @@ export default function Home() {
         <SequenceStream variant="registration" />
         <div className="container registration-grid">
           <div className="registration-content">
-            <h2>让 AI 成为你的科研助手</h2>
+            <h2 aria-label="让 AI 成为你的科研助手">
+              <span aria-hidden="true">让 </span>
+              <span className="hero-title-latin" aria-hidden="true">AI</span>
+              <span aria-hidden="true"> 成为你的科研助手</span>
+            </h2>
             <p className="registration-lead">登录后填写报名信息，系统将根据研究方向匹配班级群。</p>
             <div className="registration-actions">
               <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
@@ -235,50 +243,26 @@ export default function Home() {
 
       <section className="organizations">
         <div className="container org-grid">
-          <div><span>主办单位</span><b>上海人工智能实验室</b></div>
-          <div><span>联合主办单位</span><b>上海市科学技术协会</b></div>
-          <div><span>协办单位</span><b>智爱赛思社区、蔻享学术</b></div>
+          <article className="org-item">
+            <span>主办单位</span>
+            <img className="org-logo" src="/org-shlab.png?v=3" alt="上海人工智能实验室" />
+          </article>
+          <article className="org-item">
+            <span>联合主办单位</span>
+            <img className="org-logo" src="/org-sast.png?v=3" alt="上海市科学技术协会" />
+          </article>
+          <article className="org-item">
+            <span>协办单位</span>
+            <img className="org-logo" src="/org-ai4science.png?v=3" alt="智爱赛思" />
+          </article>
+          <article className="org-item org-item-secondary">
+            <span className="org-label-placeholder" aria-hidden="true">协办单位</span>
+            <img className="org-logo" src="/org-koushare.png?v=3" alt="蔻享学术" />
+          </article>
         </div>
       </section>
 
-      <footer className="site-footer">
-        <div className="container site-footer-main">
-          <div className="site-footer-brand">
-            <a href="https://discovery.intern-ai.org.cn/chat/" aria-label="前往书生·端砚">
-              <img src="/intern-discovery-logo.png" alt="书生·端砚" />
-            </a>
-            <p>AI 科研加速营，面向科研人员的公益培训计划，帮助学员建立可上手、可复用的个人科研工作流。</p>
-            <small>主办：上海人工智能实验室<br />联合主办：上海市科学技术协会</small>
-          </div>
-          <nav className="site-footer-column" aria-label="活动导航">
-            <b>活动</b>
-            <a href="/#intro">活动介绍</a>
-            <a href="/#courses">课程内容</a>
-            <a href="/#schedule">活动时间</a>
-            <a href="/#benefits">学员权益</a>
-          </nav>
-          <nav className="site-footer-column" aria-label="参与导航">
-            <b>参与</b>
-            <a href="/register">活动报名</a>
-            <a href="/invitations">邀请排行</a>
-          </nav>
-          <nav className="site-footer-column" aria-label="法律信息">
-            <b>法律</b>
-            <a href="https://ai4scompetition.intern-ai.org.cn/protocol#p-service">法律协议</a>
-            <a href="https://ai4scompetition.intern-ai.org.cn/protocol#p-privacy">隐私协议</a>
-            <a href="https://ai4scompetition.intern-ai.org.cn/protocol#p-privacy">个人信息保护政策</a>
-          </nav>
-          <div className="site-footer-column site-footer-contact">
-            <b>联系我们</b>
-            <a href="mailto:interndiscovery@pjlab.org.cn">interndiscovery@pjlab.org.cn</a>
-            <a href="https://discovery.intern-ai.org.cn/chat/">书生·端砚平台</a>
-          </div>
-        </div>
-        <div className="container site-footer-bottom">
-          <span>© All Rights Reserved. 沪ICP备2021009351号-21</span>
-          <span>Powered by Intern Discovery Platform</span>
-        </div>
-      </footer>
+      <SiteFooter />
 
       {shareOpen && (
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
