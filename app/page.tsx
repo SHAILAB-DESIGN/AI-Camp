@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { NotePencil } from "@phosphor-icons/react/dist/icons/NotePencil";
 import { ShareNetwork } from "@phosphor-icons/react/dist/icons/ShareNetwork";
+import { Gift } from "@phosphor-icons/react/dist/icons/Gift";
 import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
@@ -268,13 +269,17 @@ export default function Home() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
           <section className="share-modal" role="dialog" aria-modal="true" aria-label="分享活动">
             <button className="modal-close" type="button" aria-label="关闭" onClick={() => setShareOpen(false)}>×</button>
-            <a className="share-poster-preview" href="/invitation-poster-virtual.png" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
-              <img src="/invitation-poster-virtual.png" alt="AI 科研加速营虚拟邀请海报" />
+            <a className="share-poster-preview" href="/invitation-poster-virtual.png?v=4" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
+              <img src="/invitation-poster-virtual.png?v=4" alt="AI 科研加速营邀请海报" />
               <span>点击查看大图</span>
             </a>
-            <div className="share-reward-summary"><p>完成邀请可获得社区周边、算力额度与研习证书。</p><a href="/invitations">查看邀请福利 →</a></div>
+            <div className="share-reward-summary">
+              <Gift className="share-reward-icon" size={24} weight="regular" aria-hidden="true" />
+              <p>完成邀请可获得社区周边、算力额度与研习证书。</p>
+              <a href="/invitations">查看邀请福利 →</a>
+            </div>
             <div className="share-modal-actions">
-              <a className="line-button large" href="/invitation-poster-virtual.png" download="AI科研加速营邀请海报.png">保存海报</a>
+              <a className="line-button large" href="/invitation-poster-virtual.png?v=4" download="AI科研加速营邀请海报.png">保存海报</a>
               <button className="primary-button large" type="button" onClick={shareCampLink}>{shareStatus}</button>
             </div>
           </section>
