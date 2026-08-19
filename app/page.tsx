@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { NotePencil } from "@phosphor-icons/react/dist/icons/NotePencil";
+import { ShareNetwork } from "@phosphor-icons/react/dist/icons/ShareNetwork";
 import SiteHeader from "./components/site-header";
+import SequenceStream from "./components/sequence-stream";
 
 type Track = "workflow" | "skill" | "cases";
 
@@ -36,11 +39,11 @@ const tracks: Record<Track, { label: string; note: string; courses: Array<{ no: 
 };
 
 const benefits = [
-  ["01", "AI 科研工作流", "掌握一套能直接进入真实任务的科研方法"],
-  ["02", "个人科研 Agent Skill", "把高频流程沉淀成可复用的个人工具"],
-  ["03", "课程结业证书", "符合最终结业要求即可获得"],
-  ["04", "免费算力额度", "支持课程实践与后续科研探索"],
-  ["05", "社区周边与合作机会", "优秀学员可获得后续社区连接"],
+  ["01", "AI 科研工作流", "掌握一套能直接进入真实任务的科研方法", "/benefit-workflow.png"],
+  ["02", "个人科研 Agent Skill", "把高频流程沉淀成可复用的个人工具", "/benefit-agent-skill.png"],
+  ["03", "课程结业证书", "符合最终结业要求即可获得", "/benefit-certificate.png"],
+  ["04", "免费算力额度", "支持课程实践与后续科研探索", "/benefit-compute.png"],
+  ["05", "社区周边与合作机会", "优秀学员可获得后续社区连接", "/benefit-community.png"],
 ];
 
 const faqs = [
@@ -53,8 +56,20 @@ const faqs = [
 export default function Home() {
   const [track, setTrack] = useState<Track>("workflow");
   const [shareOpen, setShareOpen] = useState(false);
+  const [shareStatus, setShareStatus] = useState("复制邀请链接");
   const [activeSection, setActiveSection] = useState("intro");
   const [activeBenefit, setActiveBenefit] = useState(0);
+
+  const shareCampLink = async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareStatus("链接已复制");
+      window.setTimeout(() => setShareStatus("复制邀请链接"), 2400);
+    } catch {
+      setShareStatus("请重试");
+    }
+  };
 
   useEffect(() => {
     if (!shareOpen) return;
@@ -76,12 +91,14 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  return (
-    <main>
-      <SiteHeader active="home" />
+  const directoryItems = [["intro", "活动介绍"], ["courses", "课程内容"], ["schedule", "活动时间"], ["benefits", "学员权益"], ["audience", "适合人群"], ["registration", "报名方式"]];
 
+  return (
+    <main className="home-page">
+      <SiteHeader active="home" />
       <section className="hero" id="top">
         <div className="hero-art" aria-hidden="true" />
+        <SequenceStream />
         <div className="hero-inner">
           <div className="hero-copy">
             <p className="kicker">公益培训计划 / 在线学习</p>
@@ -89,10 +106,9 @@ export default function Home() {
             <p className="hero-en">AI Research Acceleration Camp</p>
             <p className="hero-lead">把 AI 真正带进文献调研、实验设计与科研写作，建立一套可上手、可复用的个人科研工作流。</p>
             <div className="hero-actions">
-              <a className="primary-button large" href="/register">立即报名</a>
-              <div className="hero-secondary-actions">
-                <button className="hero-utility-link" type="button" onClick={() => setShareOpen(true)}><span>分享活动</span><i aria-hidden="true">→</i></button>
-                <a className="hero-utility-link" href="/invitations"><span>查看分享排行榜</span><i aria-hidden="true">→</i></a>
+              <div className="hero-primary-actions">
+                <a className="hero-share-card hero-register-card" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
+                <button className="hero-share-card hero-share-card-primary" type="button" onClick={() => setShareOpen(true)}><ShareNetwork className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>分享活动</span></button>
               </div>
             </div>
           </div>
@@ -101,7 +117,7 @@ export default function Home() {
 
       <nav className="section-nav" aria-label="活动内容索引">
         <div>
-          {[["intro", "活动介绍"], ["courses", "课程内容"], ["schedule", "活动时间"], ["benefits", "学员权益"], ["audience", "适合人群"], ["registration", "报名方式"]].map(([id, label]) => <a className={activeSection === id ? "active" : ""} href={`#${id}`} key={id}>{label}</a>)}
+          {directoryItems.map(([id, label]) => <a className={activeSection === id ? "active" : ""} href={`#${id}`} key={id}>{label}</a>)}
         </div>
       </nav>
 
@@ -115,7 +131,6 @@ export default function Home() {
             <p className="lead-paragraph">围绕真实科研任务，通过线上微课、平台实践和助教陪伴，帮助学员掌握 AI 在文献调研、研究梳理、实验方案、科研写作等环节中的应用方法。</p>
             <p>这不是一组工具清单，而是一段完整的科研训练：从提出问题开始，经过检索、阅读、记录、实验和写作，最终把方法沉淀为自己的科研资产。</p>
           </div>
-          <div className="margin-note" aria-hidden="true"><span>Observe</span><span>Verify</span><span>Build</span></div>
         </div>
       </section>
 
@@ -166,12 +181,18 @@ export default function Home() {
           </div>
           <div className="benefit-explorer">
             <article className="benefit-focus" aria-live="polite">
-              <span>{benefits[activeBenefit][0]}</span>
-              <div><h3>{benefits[activeBenefit][1]}</h3><p>{benefits[activeBenefit][2]}</p></div>
+              <div className="benefit-focus-media">
+                <img src={benefits[activeBenefit][3]} alt={`${benefits[activeBenefit][1]}插图`} loading="lazy" decoding="async" />
+              </div>
+              <div className="benefit-focus-copy">
+                <h3>{benefits[activeBenefit][1]}</h3>
+                <p>{benefits[activeBenefit][2]}</p>
+              </div>
             </article>
             <div className="benefit-options" aria-label="学员权益列表">
-              {benefits.map(([no, title, text], index) => (
+              {benefits.map(([no, title, text, image], index) => (
                 <button key={title} className={activeBenefit === index ? "active" : ""} type="button" onMouseEnter={() => setActiveBenefit(index)} onFocus={() => setActiveBenefit(index)} onClick={() => setActiveBenefit(index)}>
+                  <img className="benefit-option-image" src={image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                   <span>{no}</span><h3>{title}</h3><p>{text}</p>
                 </button>
               ))}
@@ -184,13 +205,8 @@ export default function Home() {
         <div className="container audience-grid">
           <div className="audience-card">
             <p className="section-mark">WHO SHOULD JOIN</p><h2>适合人群</h2>
-            <p>高校硕博研究生、科研工作者和科技行业从业者。无需 AI 技术背景，只需要带着一个真实的科研问题来。</p>
-            <div className="audience-tags"><span>硕博研究生</span><span>高校教师</span><span>科研人员</span><span>科技从业者</span></div>
-          </div>
-          <div className="invite-card">
-            <p className="section-mark">LEARN TOGETHER</p><h3>邀请同行，一起学习</h3>
-            <p>生成专属活动海报。好友通过推荐链接完成报名后，将计入邀请排行；奖励规则以最终活动通知为准。</p>
-            <button className="line-button" type="button" onClick={() => setShareOpen(true)}>生成分享海报</button>
+            <p><strong>高校硕博研究生</strong>、<strong>科研工作者</strong>和<strong>科技行业从业者</strong>。无需 AI 技术背景，只需要带着一个真实的科研问题来。</p>
+            <img className="audience-illustration" src="/audience-research-illustration.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>
@@ -205,17 +221,14 @@ export default function Home() {
       </section>
 
       <section className="registration-section" id="registration">
+        <SequenceStream variant="registration" />
         <div className="container registration-grid">
-          <div>
-            <p className="section-mark">REGISTRATION</p>
-            <h2>让 AI 成为你的<br />科研助手</h2>
-            <p>登录后填写报名信息，系统将根据研究方向匹配班级群。</p>
-          </div>
-          <div className="registration-sheet">
-            <p>报名研究方向</p>
-            <div><span>材料科学</span><span>生命科学</span><span>地球科学</span><span>化学</span><span>其他方向</span></div>
-            <a className="primary-button large" href="/register">登录并继续报名</a>
-            <small>当前为活动页面原型，正式报名地址和群二维码上线前配置。</small>
+          <div className="registration-content">
+            <h2>让 AI 成为你的科研助手</h2>
+            <p className="registration-lead">登录后填写报名信息，系统将根据研究方向匹配班级群。</p>
+            <div className="registration-actions">
+              <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
+            </div>
           </div>
         </div>
       </section>
@@ -228,16 +241,58 @@ export default function Home() {
         </div>
       </section>
 
-      <footer><div className="container"><a className="brand" href="/"><img src="/intern-discovery-logo.png" alt="书生·端砚" /></a><p>AI 科研加速营 · 面向科研人员的公益培训计划</p><a href="#top">返回顶部 ↑</a></div></footer>
+      <footer className="site-footer">
+        <div className="container site-footer-main">
+          <div className="site-footer-brand">
+            <a href="https://discovery.intern-ai.org.cn/chat/" aria-label="前往书生·端砚">
+              <img src="/intern-discovery-logo.png" alt="书生·端砚" />
+            </a>
+            <p>AI 科研加速营，面向科研人员的公益培训计划，帮助学员建立可上手、可复用的个人科研工作流。</p>
+            <small>主办：上海人工智能实验室<br />联合主办：上海市科学技术协会</small>
+          </div>
+          <nav className="site-footer-column" aria-label="活动导航">
+            <b>活动</b>
+            <a href="/#intro">活动介绍</a>
+            <a href="/#courses">课程内容</a>
+            <a href="/#schedule">活动时间</a>
+            <a href="/#benefits">学员权益</a>
+          </nav>
+          <nav className="site-footer-column" aria-label="参与导航">
+            <b>参与</b>
+            <a href="/register">活动报名</a>
+            <a href="/invitations">邀请排行</a>
+          </nav>
+          <nav className="site-footer-column" aria-label="法律信息">
+            <b>法律</b>
+            <a href="https://ai4scompetition.intern-ai.org.cn/protocol#p-service">法律协议</a>
+            <a href="https://ai4scompetition.intern-ai.org.cn/protocol#p-privacy">隐私协议</a>
+            <a href="https://ai4scompetition.intern-ai.org.cn/protocol#p-privacy">个人信息保护政策</a>
+          </nav>
+          <div className="site-footer-column site-footer-contact">
+            <b>联系我们</b>
+            <a href="mailto:interndiscovery@pjlab.org.cn">interndiscovery@pjlab.org.cn</a>
+            <a href="https://discovery.intern-ai.org.cn/chat/">书生·端砚平台</a>
+          </div>
+        </div>
+        <div className="container site-footer-bottom">
+          <span>© All Rights Reserved. 沪ICP备2021009351号-21</span>
+          <span>Powered by Intern Discovery Platform</span>
+        </div>
+      </footer>
 
       {shareOpen && (
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
-          <section className="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-title">
+          <section className="share-modal" role="dialog" aria-modal="true" aria-label="分享活动">
             <button className="modal-close" type="button" aria-label="关闭" onClick={() => setShareOpen(false)}>×</button>
-            <p className="section-mark">SHARE THE CAMP</p><h2 id="share-title">分享知识，邀请同行</h2>
-            <div className="poster-preview"><span>AI 科研<br />加速营</span><small>长图与专属推荐码将在正式服务中生成</small></div>
-            <p>当前页面为视觉原型。正式接入后，登录用户可生成带专属报名二维码的 1080 × 1920 活动长图。</p>
-            <button className="primary-button large" type="button" onClick={() => setShareOpen(false)}>知道了</button>
+            <a className="share-poster-preview" href="/invitation-poster-virtual.png" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
+              <img src="/invitation-poster-virtual.png" alt="AI 科研加速营虚拟邀请海报" />
+              <span>点击查看大图</span>
+            </a>
+            <div className="share-reward-summary"><p>完成邀请可获得社区周边、算力额度与研习证书。</p><a href="/invitations">查看邀请福利 →</a></div>
+            <div className="share-modal-actions">
+              <a className="line-button large" href="/invitation-poster-virtual.png" download="AI科研加速营邀请海报.png">保存海报</a>
+              <button className="primary-button large" type="button" onClick={shareCampLink}>{shareStatus}</button>
+            </div>
           </section>
         </div>
       )}
