@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { NotePencil } from "@phosphor-icons/react/dist/icons/NotePencil";
 import { ShareNetwork } from "@phosphor-icons/react/dist/icons/ShareNetwork";
 import { Gift } from "@phosphor-icons/react/dist/icons/Gift";
+import { CalendarDots } from "@phosphor-icons/react/dist/icons/CalendarDots";
+import { UsersThree } from "@phosphor-icons/react/dist/icons/UsersThree";
 import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
@@ -153,6 +155,10 @@ export default function Home() {
             </h1>
             <p className="hero-lead">AI科研加速营是专为科研人员和科技工作者设立的公益培训活动。课程围绕文献调研、论文精读、实验设计与科研写作等真实科研任务，采用线上微课与工具实操相结合的学习形式，帮助学员建立一套可上手、可复用的AI科研工作流。</p>
             <div className="hero-actions">
+              <div className="hero-meta" aria-label="活动时间与学习方式">
+                <div><CalendarDots size={25} weight="regular" aria-hidden="true" /><span>9月14日开营</span></div>
+                <div><UsersThree size={25} weight="regular" aria-hidden="true" /><span>线上学习</span></div>
+              </div>
               <div className="hero-primary-actions">
                 <a className="hero-share-card hero-register-card" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
                 <button className="hero-share-card hero-share-card-primary" type="button" onClick={requestShare}><ShareNetwork className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>分享活动</span></button>
@@ -298,17 +304,16 @@ export default function Home() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
           <section className="share-modal" role="dialog" aria-modal="true" aria-label="分享活动">
             <button className="modal-close" type="button" aria-label="关闭" onClick={() => setShareOpen(false)}>×</button>
-            <a className="share-poster-preview" href="/invitation-poster-virtual.png?v=4" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
-              <img src="/invitation-poster-virtual.png?v=4" alt="AI 科研加速营邀请海报" />
-              <span>图片生成后可直接保存或分享</span>
+            <a className="share-poster-preview" href="/invitation-poster-virtual.png?v=5" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
+              <img src="/invitation-poster-virtual.png?v=5" alt="AI 科研加速营邀请海报" />
             </a>
             <div className="share-reward-summary">
               <Gift className="share-reward-icon" size={24} weight="regular" aria-hidden="true" />
-              <p>保存图片后，发送给好友或分享到社群。</p>
+              <p>邀请好友报名，有机会获得社区周边、免费算力及研习召集人证书。</p>
               <a href="/invitations">邀请排行 →</a>
             </div>
             <div className="share-modal-actions">
-              <a className="line-button large" href="/invitation-poster-virtual.png?v=4" download="AI科研加速营邀请海报.png">保存长图</a>
+              <a className="line-button large" href="/invitation-poster-virtual.png?v=5" download="AI科研加速营邀请海报.png">保存长图</a>
               <button className="primary-button large" type="button" onClick={shareCampLink}>{shareStatus}</button>
             </div>
           </section>
