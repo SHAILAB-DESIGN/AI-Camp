@@ -28,8 +28,9 @@ type AuthState =
   | { status: "authenticated"; displayName: string };
 
 export default function SiteHeader({ active = "home" }: { active?: "home" | "register" | "invitations" }) {
-  const [auth, setAuth] = useState<AuthState>({ status: "loading" });
-  const [signInHref, setSignInHref] = useState("");
+  const isStaticPreview = process.env.NEXT_PUBLIC_GITHUB_PAGES === "true";
+  const [auth, setAuth] = useState<AuthState>(isStaticPreview ? { status: "anonymous" } : { status: "loading" });
+  const [signInHref, setSignInHref] = useState(isStaticPreview ? "/register" : "");
   const [previewHref, setPreviewHref] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,6 +38,7 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
   const accountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isStaticPreview) return;
     let activeRequest = true;
     queueMicrotask(() => {
       if (!activeRequest) return;
@@ -71,7 +73,7 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
         .catch(() => activeRequest && setAuth({ status: "anonymous" }));
     });
     return () => { activeRequest = false; };
-  }, []);
+  }, [isStaticPreview]);
 
   useEffect(() => {
     if (!accountOpen) return;
