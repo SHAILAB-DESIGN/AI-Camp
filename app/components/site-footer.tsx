@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
@@ -6,20 +8,18 @@ export default function SiteFooter() {
           <a href="https://discovery.intern-ai.org.cn/chat/" aria-label="前往书生·端砚">
             <img src="/intern-discovery-logo.png" alt="书生·端砚" />
           </a>
-          <p>AI 科研加速营，面向科研人员的公益培训计划，帮助学员建立可上手、可复用的个人科研工作流。</p>
           <small>主办：上海人工智能实验室<br />联合主办：上海市科学技术协会</small>
         </div>
         <nav className="site-footer-column" aria-label="活动导航">
           <b>活动</b>
-          <a href="/#intro">活动介绍</a>
-          <a href="/#courses">课程内容</a>
-          <a href="/#schedule">活动时间</a>
-          <a href="/#benefits">学员权益</a>
+          <Link href="/#courses">课程内容</Link>
+          <Link href="/#schedule">活动时间</Link>
+          <Link href="/#benefits">学员权益</Link>
         </nav>
         <nav className="site-footer-column" aria-label="参与导航">
           <b>参与</b>
-          <a href="/register">活动报名</a>
-          <a href="/invitations">邀请排行</a>
+          <Link href="/register">活动报名</Link>
+          <Link href="/invitations">排行榜</Link>
         </nav>
         <nav className="site-footer-column" aria-label="法律信息">
           <b>法律</b>
@@ -34,8 +34,7 @@ export default function SiteFooter() {
         </div>
       </div>
       <div className="container site-footer-bottom">
-        <span>© All Rights Reserved. 沪ICP备2021009351号-21</span>
-        <span>Powered by Intern Discovery Platform</span>
+        <span>© 沪ICP备2021009351号-21</span>
       </div>
     </footer>
   );

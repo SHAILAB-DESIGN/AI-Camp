@@ -1,7 +1,8 @@
 {
-  "name": "site-creator-vinext-starter",
+  "name": "ai-research-camp",
   "version": "0.1.0",
   "private": true,
+  "description": "AI 科研加速营活动官网，包含课程介绍、在线报名与邀请排行榜。",
   "engines": {
     "node": ">=22.13.0"
   },

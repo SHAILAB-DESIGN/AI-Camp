@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { Check } from "@phosphor-icons/react/dist/icons/Check";
 import { DownloadSimple } from "@phosphor-icons/react/dist/icons/DownloadSimple";
 import { WarningCircle } from "@phosphor-icons/react/dist/icons/WarningCircle";
@@ -51,7 +52,6 @@ const groupConfigs: Record<string, { name: string; qr: string; download: string 
 
 export default function RegistrationForm() {
   const [submitted, setSubmitted] = useState(false);
-  const [successOpen, setSuccessOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedField, setSelectedField] = useState("其他");
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -68,10 +68,13 @@ export default function RegistrationForm() {
     if (!value("name")) nextErrors.name = "请输入姓名";
     if (!value("phone")) nextErrors.phone = "请输入手机号";
     else if (!/^1[3-9][0-9]{9}$/.test(value("phone"))) nextErrors.phone = "请输入正确的 11 位手机号";
+    if (!value("province")) nextErrors.province = "请选择所在省份";
+    if (!value("city")) nextErrors.city = "请选择所在城市";
     if (!value("organization")) nextErrors.organization = "请输入学校或单位名称";
     if (!value("identity")) nextErrors.identity = "请选择当前身份";
     if (!value("field")) nextErrors.field = "请选择研究方向";
     if (!value("topic")) nextErrors.topic = "请填写具体研究内容";
+    if (!value("ability")) nextErrors.ability = "请选择当前 AI 科研能力";
     if (!formData.get("consent")) nextErrors.consent = "请阅读并同意报名信息使用说明";
 
     if (Object.keys(nextErrors).length > 0) {
@@ -90,7 +93,6 @@ export default function RegistrationForm() {
     setErrors({});
     setSelectedField(String(formData.get("field") || "其他"));
     setSubmitted(true);
-    setSuccessOpen(true);
   }
 
   function clearFieldError(name: string) {
@@ -103,27 +105,17 @@ export default function RegistrationForm() {
   }
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production" && new URL(window.location.href).searchParams.get("preview") === "registered") setSubmitted(true);
+    if (process.env.NODE_ENV !== "production" && new URL(window.location.href).searchParams.get("preview") === "registered") {
+      Promise.resolve().then(() => setSubmitted(true));
+    }
   }, []);
-
-  useEffect(() => {
-    if (!successOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSuccessOpen(false);
-    };
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [successOpen]);
 
   if (submitted) {
     return (
-      <>
-        <section className="container learner-dashboard" aria-label="报名完成后的学习信息" aria-hidden={successOpen || undefined}>
+        <section className="container learner-dashboard" aria-label="报名完成后的学习信息">
+          <div className="learner-dashboard-head">
+            <div><h2>报名成功</h2><p>你的报名信息已提交，请加入下方班级群并关注课程通知。</p></div>
+          </div>
           <div className="learner-dashboard-grid">
             <article className="learner-group-card">
               <div className="learner-card-heading"><span>01</span><div><h3>加入班级群</h3><p>{selectedGroup.name}</p></div></div>
@@ -143,18 +135,6 @@ export default function RegistrationForm() {
             </article>
           </div>
         </section>
-
-        {successOpen && (
-          <div className="registration-success-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setSuccessOpen(false)}>
-            <section className="registration-success-modal" role="dialog" aria-modal="true" aria-labelledby="registration-success-title">
-              <button className="registration-success-close" type="button" aria-label="关闭报名成功弹窗" onClick={() => setSuccessOpen(false)} autoFocus>×</button>
-              <span className="registration-success-icon" aria-hidden="true"><Check size={28} weight="bold" /></span>
-              <h2 id="registration-success-title">报名成功</h2>
-              <button className="primary-button registration-success-action" type="button" onClick={() => setSuccessOpen(false)}>查看班级群</button>
-            </section>
-          </div>
-        )}
-      </>
     );
   }
 
@@ -173,8 +153,8 @@ export default function RegistrationForm() {
               <div className="field-grid">
                 <label><span>姓名 *</span><input required name="name" placeholder="请输入姓名" aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />{errors.name && <small className="field-error" id="name-error">{errors.name}</small>}</label>
                 <label><span>手机号 *</span><input required name="phone" inputMode="tel" pattern="1[3-9][0-9]{9}" placeholder="请输入11位手机号" aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : undefined} />{errors.phone && <small className="field-error" id="phone-error">{errors.phone}</small>}</label>
-                <label><span>所在省份</span><select name="province" value={selectedProvince} onChange={(event) => { setSelectedProvince(event.target.value); setSelectedCity(""); }}><option value="">请选择省份</option>{Object.keys(provinceCities).map((province) => <option value={province} key={province}>{province}</option>)}</select></label>
-                <label><span>所在城市</span><select name="city" value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} disabled={!selectedProvince}><option value="">{selectedProvince ? "请选择城市" : "请先选择省份"}</option>{(provinceCities[selectedProvince] || []).map((city) => <option value={city} key={city}>{city}</option>)}</select></label>
+                <label><span>所在省份 *</span><select required name="province" value={selectedProvince} onChange={(event) => { setSelectedProvince(event.target.value); setSelectedCity(""); }} aria-invalid={Boolean(errors.province)} aria-describedby={errors.province ? "province-error" : undefined}><option value="">请选择省份</option>{Object.keys(provinceCities).map((province) => <option value={province} key={province}>{province}</option>)}</select>{errors.province && <small className="field-error" id="province-error">{errors.province}</small>}</label>
+                <label><span>所在城市 *</span><select required name="city" value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} disabled={!selectedProvince} aria-invalid={Boolean(errors.city)} aria-describedby={errors.city ? "city-error" : undefined}><option value="">{selectedProvince ? "请选择城市" : "请先选择省份"}</option>{(provinceCities[selectedProvince] || []).map((city) => <option value={city} key={city}>{city}</option>)}</select>{errors.city && <small className="field-error" id="city-error">{errors.city}</small>}</label>
                 <label className="wide"><span>学校 / 单位 *</span><input required name="organization" placeholder="请输入学校或单位名称" aria-invalid={Boolean(errors.organization)} aria-describedby={errors.organization ? "organization-error" : undefined} />{errors.organization && <small className="field-error" id="organization-error">{errors.organization}</small>}</label>
               </div>
             </section>
@@ -186,11 +166,12 @@ export default function RegistrationForm() {
               <label className="single-field"><span>具体研究内容 *</span><input required name="topic" placeholder="示例：电池材料、蛋白质设计、气候预测" aria-invalid={Boolean(errors.topic)} aria-describedby={errors.topic ? "topic-error" : undefined} />{errors.topic && <small className="field-error" id="topic-error">{errors.topic}</small>}</label>
             </section>
 
-            <section className="form-block" id="ability">
-              <div className="form-title"><span>03</span><div><h2>AI 科研能力</h2><p>请选择最符合当前情况的一项</p></div></div>
+            <section className={`form-block${errors.ability ? " field-error-group" : ""}`} id="ability">
+              <div className="form-title"><span>03</span><div><h2>AI 科研能力 *</h2><p>请选择最符合当前情况的一项</p></div></div>
               <div className="ability-grid">{[
                 ["1", "不了解如何将 AI 应用于科研任务"], ["2", "了解部分工具，但需要较多指导"], ["3", "能用 AI 完成部分科研任务"], ["4", "能独立完成大多数科研任务"], ["5", "已形成稳定、可复用的工作流"],
-              ].map(([score, text]) => <label key={score}><input type="radio" name="ability" value={score} /><span>{text}</span></label>)}</div>
+              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={score} aria-describedby={errors.ability ? "ability-error" : undefined} /><span>{text}</span></label>)}</div>
+              {errors.ability && <p className="field-error" id="ability-error">{errors.ability}</p>}
             </section>
 
             <section className="form-block" id="source">
@@ -199,7 +180,7 @@ export default function RegistrationForm() {
             </section>
 
             <label className={`consent${errors.consent ? " consent-error" : ""}`}><input required type="checkbox" name="consent" aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? "consent-error" : undefined} /><span>同意将报名信息用于上海人工智能实验室的活动通知、分班和课程运营 *{errors.consent && <small className="field-error" id="consent-error">{errors.consent}</small>}</span></label>
-            <div className="form-actions"><a className="line-button large" href="/">取消</a><button className="primary-button large" type="submit">提交</button></div>
+            <div className="form-actions"><Link className="line-button large" href="/">取消</Link><button className="primary-button large" type="submit">提交</button></div>
           </form>
       </div>
   );

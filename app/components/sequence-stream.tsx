@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const SYMBOLS = "INTERNINKSTONE".split("");
-const WORD = "INTERNINKSTONE";
+const SYMBOLS = "0123456789+*·".split("");
 
 type AsciiCell = {
   char: string;
@@ -32,7 +31,6 @@ export default function SequenceStream({ variant = "hero" }: { variant?: "hero" 
     let cells: AsciiCell[] = [];
     let animationFrame = 0;
     let lastMutation = 0;
-    let nextWordAt = 0;
 
     const randomSymbol = () => SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
     const randomColor = (): AsciiCell["color"] => (
@@ -57,10 +55,9 @@ export default function SequenceStream({ variant = "hero" }: { variant?: "hero" 
         target: Math.random() > (isRegistration ? 0.6 : 0.72) ? 0.2 + Math.random() * 0.5 : 0.02,
         color: randomColor(),
       }));
-      nextWordAt = performance.now() + 900;
     };
 
-    const mutateField = (time: number) => {
+    const mutateField = () => {
       const mutationCount = Math.max(3, Math.floor(cells.length * 0.035));
       for (let index = 0; index < mutationCount; index += 1) {
         const cell = cells[Math.floor(Math.random() * cells.length)];
@@ -69,23 +66,11 @@ export default function SequenceStream({ variant = "hero" }: { variant?: "hero" 
         cell.target = Math.random() > 0.58 ? 0.24 + Math.random() * 0.7 : 0.015;
       }
 
-      if (time >= nextWordAt && columns > WORD.length + 2) {
-        const row = 1 + Math.floor(Math.random() * Math.max(1, rows - 3));
-        const start = Math.floor(Math.random() * Math.max(1, columns - WORD.length - 1));
-        WORD.split("").forEach((char, offset) => {
-          const cell = cells[row * columns + start + offset];
-          if (!cell) return;
-          cell.char = char;
-          cell.color = randomColor();
-          cell.target = 0.72 + Math.random() * 0.25;
-        });
-        nextWordAt = time + 1500 + Math.random() * 1500;
-      }
     };
 
     const draw = (time: number) => {
       if (!reducedMotion.matches && time - lastMutation > 110) {
-        mutateField(time);
+        mutateField();
         lastMutation = time;
       }
 
@@ -137,13 +122,6 @@ export default function SequenceStream({ variant = "hero" }: { variant?: "hero" 
   return (
     <div className={`hero-sequence-stream hero-ascii-field hero-sequence-stream-${variant}`} aria-hidden="true">
       <canvas ref={canvasRef} />
-      {variant === "hero" && (
-        <div className="hero-sequence-terminal">
-          <span>[ INTERNINKSTONE ]</span>
-          <span>{"{ MOTION = RANDOM_FADE }"}</span>
-          <span>// ASCII_FIELD</span>
-        </div>
-      )}
     </div>
   );
 }

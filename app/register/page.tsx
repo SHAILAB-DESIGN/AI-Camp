@@ -1,5 +1,6 @@
 import SiteFooter from "../components/site-footer";
 import SiteHeader from "../components/site-header";
+import RegistrationAuthGuard from "./registration-auth-guard";
 import RegistrationForm from "./registration-form";
 
 export default function RegisterPage() {
@@ -9,7 +10,6 @@ export default function RegisterPage() {
       <header className="subpage-hero register-hero">
         <div className="container subpage-hero-inner">
           <div>
-            <p className="section-mark">REGISTRATION</p>
             <h1 className="split-display-title" aria-label="AI 科研加速营报名">
               <span className="hero-title-latin" aria-hidden="true">AI</span>
               <span className="hero-title-cn" aria-hidden="true">科研加速营报名</span>
@@ -19,7 +19,7 @@ export default function RegisterPage() {
         </div>
       </header>
 
-      <RegistrationForm />
+      <RegistrationAuthGuard><RegistrationForm /></RegistrationAuthGuard>
       <SiteFooter />
     </main>
   );

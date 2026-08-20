@@ -38,28 +38,38 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
 
   useEffect(() => {
     let activeRequest = true;
-    setSignInHref(createSsoUrl(window.location.href));
-    const currentUrl = new URL(window.location.href);
-    const previewUrl = new URL(window.location.href);
-    previewUrl.searchParams.set("preview", "logged-in");
-    setPreviewHref(`${previewUrl.pathname}${previewUrl.search}${previewUrl.hash}`);
-    if (process.env.NODE_ENV !== "production" && currentUrl.searchParams.get("preview") === "logged-in") {
-      currentUrl.searchParams.delete("preview");
-      setSignOutHref(`${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}` || "/");
-      setAuth({ status: "authenticated", displayName: "科研用户" });
-      return () => { activeRequest = false; };
-    }
-    fetch("/api/auth-status", { credentials: "same-origin", cache: "no-store" })
-      .then((response) => response.json())
-      .then((result: { authenticated?: boolean; displayName?: string }) => {
-        if (!activeRequest) return;
-        if (result.authenticated && result.displayName) {
-          setAuth({ status: "authenticated", displayName: result.displayName });
-        } else {
-          setAuth({ status: "anonymous" });
-        }
-      })
-      .catch(() => activeRequest && setAuth({ status: "anonymous" }));
+    queueMicrotask(() => {
+      if (!activeRequest) return;
+      setSignInHref(createSsoUrl(window.location.href));
+      const currentUrl = new URL(window.location.href);
+      const queryPreviewAuthenticated = currentUrl.searchParams.get("preview") === "logged-in";
+      if (process.env.NODE_ENV !== "production" && queryPreviewAuthenticated) {
+        window.sessionStorage.setItem("ai-research-camp-preview-auth", "true");
+      }
+      const previewAuthenticated = process.env.NODE_ENV !== "production" && (
+        queryPreviewAuthenticated || window.sessionStorage.getItem("ai-research-camp-preview-auth") === "true"
+      );
+      const previewUrl = new URL(window.location.href);
+      previewUrl.searchParams.set("preview", "logged-in");
+      setPreviewHref(`${previewUrl.pathname}${previewUrl.search}${previewUrl.hash}`);
+      if (previewAuthenticated) {
+        currentUrl.searchParams.delete("preview");
+        setSignOutHref(`${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}` || "/");
+        setAuth({ status: "authenticated", displayName: "科研用户" });
+        return;
+      }
+      fetch("/api/auth-status", { credentials: "same-origin", cache: "no-store" })
+        .then((response) => response.json())
+        .then((result: { authenticated?: boolean; displayName?: string }) => {
+          if (!activeRequest) return;
+          if (result.authenticated && result.displayName) {
+            setAuth({ status: "authenticated", displayName: result.displayName });
+          } else {
+            setAuth({ status: "anonymous" });
+          }
+        })
+        .catch(() => activeRequest && setAuth({ status: "anonymous" }));
+    });
     return () => { activeRequest = false; };
   }, []);
 
@@ -111,7 +121,7 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
               {accountOpen && (
                 <div className="account-dropdown" role="menu">
                   <div className="account-dropdown-user"><span>{avatarLabel}</span><div><strong>{auth.displayName}</strong><small>已登录</small></div></div>
-                  <a href={signOutHref} role="menuitem"><SignOut size={17} aria-hidden="true" />退出登录</a>
+                  <a href={signOutHref} role="menuitem" onClick={() => window.sessionStorage.removeItem("ai-research-camp-preview-auth")}><SignOut size={17} aria-hidden="true" />退出登录</a>
                 </div>
               )}
             </div>
@@ -144,7 +154,7 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
               {auth.status === "authenticated" ? (
                 <>
                   <div className="mobile-account-card"><span>{avatarLabel}</span><div><strong>{auth.displayName}</strong><small>已登录</small></div></div>
-                  <a className="mobile-signout" href={signOutHref}><SignOut size={18} aria-hidden="true" />退出登录</a>
+                  <a className="mobile-signout" href={signOutHref} onClick={() => window.sessionStorage.removeItem("ai-research-camp-preview-auth")}><SignOut size={18} aria-hidden="true" />退出登录</a>
                 </>
               ) : auth.status === "loading" ? (
                 <span className="mobile-auth-loading">正在读取登录状态</span>
