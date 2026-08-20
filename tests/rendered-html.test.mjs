@@ -18,7 +18,7 @@ test("defines the public activity routes and metadata", async () => {
 
   assert.match(layout, /AI科研加速营｜书生·端砚/);
   assert.match(home, /AI科研加速营/);
-  assert.match(register, /AI 科研加速营报名/);
+  assert.match(register, /AI科研加速营报名/);
   assert.match(invitations, /邀请好友赢好礼/);
 });
 
@@ -29,14 +29,14 @@ test("keeps required registration validation in source", async () => {
     assert.match(form, new RegExp(`nextErrors\\.${field}`));
   }
   assert.match(form, /nextErrors\.consent/);
-  assert.match(form, /当前年级/);
+  assert.match(form, /当前身份/);
   assert.match(form, /优先填写端砚账号绑定手机号/);
 });
 
-test("keeps the leaderboard paginated", async () => {
+test("keeps 80 demo entries for the 50-row scroll viewport", async () => {
   const leaderboard = await read("app/invitations/leaderboard.tsx");
 
-  assert.match(leaderboard, /const PAGE_SIZE = 20/);
-  assert.match(leaderboard, /排行榜分页/);
+  assert.match(leaderboard, /\["80", "陆予安", "0"\]/);
+  assert.doesNotMatch(leaderboard, /PAGE_SIZE/);
   assert.match(leaderboard, /按成功报名人数排序/);
 });

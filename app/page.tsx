@@ -44,18 +44,11 @@ const tracks: Record<Track, { label: string; note: string; courses: Array<{ no: 
 };
 
 const benefits = [
-  ["01", "AI科研工作流", "掌握一套可复用的科研方法", "/benefit-workflow.png"],
-  ["02", "个人科研Agent Skill", "将高频流程沉淀为个人工具", "/benefit-agent-skill.png"],
-  ["03", "课程结业证书", "符合结业要求即可获得证书", "/benefit-certificate.png"],
-  ["04", "免费算力额度", "支持课程实践与科研探索", "/benefit-compute.png"],
-  ["05", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.png"],
-];
-
-const faqs = [
-  ["没有 AI 技术背景可以参加吗？", "可以。课程从真实科研任务出发，不要求编程或 AI 技术背景。"],
-  ["课程如何学习？", "采用线上微课、工具实操与分领域社群学习相结合的方式。"],
-  ["报名后如何进入班级群？", "提交报名后，系统会根据研究方向展示对应班级群二维码。"],
-  ["如何获得结业证书？", "完成学习任务并达到最终公布的结业要求即可获得，具体规则以活动通知为准。"],
+  ["01", "AI科研工作流", "掌握一套可复用的科研方法", "/benefit-workflow.webp"],
+  ["02", "个人科研Agent Skill", "将高频流程沉淀为个人工具", "/benefit-agent-skill.webp"],
+  ["03", "课程结业证书", "符合结业要求即可获得证书", "/benefit-certificate.webp"],
+  ["04", "免费算力额度", "支持课程实践与科研探索", "/benefit-compute.webp"],
+  ["05", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.webp"],
 ];
 
 export default function Home() {
@@ -149,11 +142,11 @@ export default function Home() {
         <SequenceStream />
         <div className="hero-inner">
           <div className="hero-copy">
-            <h1 aria-label="AI 科研加速营">
+            <h1 aria-label="AI科研加速营">
               <span className="hero-title-latin" aria-hidden="true">AI</span>
               <span className="hero-title-cn" aria-hidden="true">科研加速营</span>
             </h1>
-            <p className="hero-lead">AI科研加速营是专为科研人员和科技工作者设立的公益培训活动。课程围绕文献调研、论文精读、实验设计与科研写作等真实科研任务，采用线上微课与工具实操相结合的学习形式，帮助学员建立一套可上手、可复用的AI科研工作流。</p>
+            <p className="hero-lead">AI科研加速营是专为科研人员和科技工作者设立的公益培训活动。 课程围绕文献调研、论文精读、实验设计与科研写作等真实科研任务， 采用线上微课与工具实操相结合的学习形式， 帮助学员建立一套可上手、可复用的AI科研工作流。</p>
             <div className="hero-actions">
               <div className="hero-meta" aria-label="活动时间与学习方式">
                 <div><CalendarDots size={25} weight="regular" aria-hidden="true" /><span>9月14日开营</span></div>
@@ -203,7 +196,6 @@ export default function Home() {
         <div className="container schedule-grid">
           <div className="section-heading">
             <div className="ascii-section-title"><AsciiSectionMark /><h2>时间安排</h2></div>
-            <p>三段式学习节奏，把知识逐步转化为科研动作。</p>
           </div>
           <div className="timeline">
             <article><span className="timeline-node">01</span><div><time>9月1日——9月13日</time><h3>开放报名</h3><p>填写报名信息，关注活动通知</p></div></article>
@@ -217,7 +209,6 @@ export default function Home() {
         <div className="container">
           <div className="section-heading split-heading">
             <div className="ascii-section-title"><AsciiSectionMark /><h2>学员福利</h2></div>
-            <p>不只完成课程，也带走可复用的方法、工具与持续探索的资源。</p>
           </div>
           <div className="benefit-explorer">
             <article className="benefit-focus" aria-live="polite">
@@ -246,16 +237,7 @@ export default function Home() {
           <div className="audience-card">
             <div className="ascii-section-title"><AsciiSectionMark /><h2>适合人群</h2></div>
             <p>欢迎<strong>高校硕博研究生</strong>、<strong>科研工作者</strong>和<strong>科技行业从业者</strong>报名，无需AI技术背景。</p>
-            <img className="audience-illustration" src="/audience-research-illustration.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          </div>
-        </div>
-      </section>
-
-      <section className="section faq-section" id="faq">
-        <div className="container faq-grid">
-          <div className="section-heading"><div className="ascii-section-title"><AsciiSectionMark /><h2>常见问题</h2></div></div>
-          <div className="faq-list">
-            {faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<span>＋</span></summary><p>{answer}</p></details>)}
+            <img className="audience-illustration" src="/audience-research-illustration.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>
@@ -269,7 +251,6 @@ export default function Home() {
               <span aria-hidden="true">书生·端砚</span>
               <span aria-hidden="true">成为你的科研助手</span>
             </h2>
-            <p className="registration-lead">登录后填写报名信息，系统将根据研究方向匹配班级群。</p>
             <div className="registration-actions">
               <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
             </div>
@@ -278,23 +259,25 @@ export default function Home() {
       </section>
 
       <section className="organizations">
-        <div className="container org-grid">
-          <article className="org-item">
-            <span>主办单位</span>
-            <img className="org-logo" src="/org-shlab.png?v=3" alt="上海人工智能实验室" />
-          </article>
-          <article className="org-item">
-            <span>联合主办单位</span>
-            <img className="org-logo" src="/org-sast.png?v=3" alt="上海市科学技术协会" />
-          </article>
-          <article className="org-item">
-            <span>协办单位</span>
-            <img className="org-logo" src="/org-ai4science.png?v=3" alt="智爱赛思" />
-          </article>
-          <article className="org-item org-item-secondary">
-            <span className="org-label-placeholder" aria-hidden="true">协办单位</span>
-            <img className="org-logo" src="/org-koushare.png?v=3" alt="蔻享学术" />
-          </article>
+        <div className="container">
+          <div className="org-grid">
+            <article className="org-item">
+              <span>主办单位</span>
+              <img className="org-logo" src="/org-shlab.png?v=3" alt="上海人工智能实验室" />
+            </article>
+            <article className="org-item">
+              <span>联合主办单位</span>
+              <img className="org-logo" src="/org-sast.png?v=3" alt="上海市科学技术协会" />
+            </article>
+            <article className="org-item">
+              <span>协办单位</span>
+              <img className="org-logo" src="/org-ai4science.png?v=3" alt="智爱赛思社区" />
+            </article>
+            <article className="org-item org-item-secondary">
+              <span className="org-label-placeholder" aria-hidden="true">协办单位</span>
+              <img className="org-logo" src="/org-koushare.png?v=3" alt="蔻享学术" />
+            </article>
+          </div>
         </div>
       </section>
 
@@ -304,8 +287,8 @@ export default function Home() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
           <section className="share-modal" role="dialog" aria-modal="true" aria-label="分享活动">
             <button className="modal-close" type="button" aria-label="关闭" onClick={() => setShareOpen(false)}>×</button>
-            <a className="share-poster-preview" href="/invitation-poster-virtual.png?v=5" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
-              <img src="/invitation-poster-virtual.png?v=5" alt="AI 科研加速营邀请海报" />
+            <a className="share-poster-preview" href="/invitation-poster-virtual.webp?v=7" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
+              <img src="/invitation-poster-virtual.webp?v=7" alt="AI 科研加速营邀请海报" />
             </a>
             <div className="share-reward-summary">
               <Gift className="share-reward-icon" size={24} weight="regular" aria-hidden="true" />
@@ -313,7 +296,7 @@ export default function Home() {
               <a href="/invitations">邀请排行 →</a>
             </div>
             <div className="share-modal-actions">
-              <a className="line-button large" href="/invitation-poster-virtual.png?v=5" download="AI科研加速营邀请海报.png">保存长图</a>
+              <a className="line-button large" href="/invitation-poster-virtual.webp?v=7" download="AI科研加速营邀请海报.webp">保存长图</a>
               <button className="primary-button large" type="button" onClick={shareCampLink}>{shareStatus}</button>
             </div>
           </section>
@@ -325,7 +308,7 @@ export default function Home() {
           <section className="share-modal share-login-prompt" role="dialog" aria-modal="true" aria-labelledby="share-login-title">
             <button className="modal-close" type="button" aria-label="关闭登录提示" onClick={() => setLoginPromptOpen(false)}>×</button>
             <h2 id="share-login-title">登录后分享活动</h2>
-            <p>登录后即可生成专属邀请海报，并查看你在分享排行榜中的当前排名。</p>
+            <p>登录后即可生成专属海报，邀请达标还可以获得额外福利。</p>
             <div className="share-modal-actions">
               <a className="primary-button large" href="/signin-with-chatgpt?return_to=%2F%3Fshare%3D1">去登录</a>
             </div>
