@@ -1,6 +1,7 @@
 import SiteFooter from "../components/site-footer";
 import SiteHeader from "../components/site-header";
 import Leaderboard from "./leaderboard";
+import AsciiSectionMark from "../components/ascii-section-mark";
 
 export default function InvitationsPage() {
   return (
@@ -9,7 +10,7 @@ export default function InvitationsPage() {
 
       <section className="section invitation-rewards"><div className="container reward-layout">
         <div className="reward-section-head">
-          <div className="section-heading"><h2>邀请福利</h2><p>礼品样式及算力额度以活动最终通知为准。</p></div>
+          <div className="section-heading"><div className="ascii-section-title"><AsciiSectionMark /><h2>邀请福利</h2></div><p>礼品样式及算力额度以活动最终通知为准。</p></div>
         </div>
         <div className="reward-list">
           <article><div className="reward-banner reward-banner-gift" aria-hidden="true" /><div className="reward-card-copy"><h3>社区周边礼品</h3><p>邀请排行榜前十名可以获得。</p></div></article>

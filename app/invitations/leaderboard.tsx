@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AsciiSectionMark from "../components/ascii-section-mark";
 
 const sample = [
   ["01", "林晓宇", "12"],
@@ -30,6 +31,7 @@ const sample = [
 ];
 
 const PAGE_SIZE = 20;
+const rankIcons = ["/rank-1.svg", "/rank-2.svg", "/rank-3.svg"];
 
 type CurrentUser = { displayName: string; rank: number; invitations: number };
 
@@ -70,16 +72,16 @@ export default function Leaderboard() {
     <div className="leaderboard">
       <div className="leaderboard-head">
         <div>
-          <h2>分享排行榜</h2>
+          <div className="ascii-section-title"><AsciiSectionMark /><h2>分享排行榜</h2></div>
           {currentUser && <p className="current-user-rank">我的当前排名：第 {currentUser.rank} 名 · {currentUser.displayName} · 已邀请 {currentUser.invitations} 人</p>}
         </div>
         <span>按成功报名人数排序</span>
       </div>
       <div className="leaderboard-table">
-        <div className="table-head"><span>排名</span><span>用户昵称</span><span>邀请人数</span></div>
+        <div className="table-head"><span>排名</span><span>用户昵称</span><span>邀请人数（人）</span></div>
         {visibleRows.map((row, index) => {
           const rankIndex = (page - 1) * PAGE_SIZE + index;
-          return <div className={`table-row${rankIndex < 3 ? ` top-rank rank-${rankIndex + 1}` : ""}`} key={row[0]}><b>{row[0]}</b><span>{row[1]}</span><strong>{row[2]} 人</strong></div>;
+          return <div className={`table-row${rankIndex < 3 ? ` top-rank rank-${rankIndex + 1}` : ""}`} key={row[0]}><b>{rankIndex < 3 ? <img className="rank-icon" src={rankIcons[rankIndex]} alt={`第${rankIndex + 1}名`} /> : row[0]}</b><span>{row[1]}</span><strong>{row[2]}</strong></div>;
         })}
       </div>
       <div className="leaderboard-pagination" aria-label="排行榜分页">

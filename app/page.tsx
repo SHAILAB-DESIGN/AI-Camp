@@ -7,6 +7,7 @@ import { Gift } from "@phosphor-icons/react/dist/icons/Gift";
 import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
+import AsciiSectionMark from "./components/ascii-section-mark";
 
 type Track = "workflow" | "skill" | "cases";
 
@@ -170,7 +171,7 @@ export default function Home() {
       <section className="section courses-section" id="courses">
         <div className="container">
           <div className="section-heading split-heading">
-            <div><h2>课程内容</h2></div>
+            <div className="ascii-section-title"><AsciiSectionMark /><h2>课程内容</h2></div>
             <p>课程内容以活动最终通知为准。</p>
           </div>
           <div className="track-tabs" role="tablist" aria-label="课程分类">
@@ -195,7 +196,7 @@ export default function Home() {
       <section className="section schedule-section" id="schedule">
         <div className="container schedule-grid">
           <div className="section-heading">
-            <h2>时间安排</h2>
+            <div className="ascii-section-title"><AsciiSectionMark /><h2>时间安排</h2></div>
             <p>三段式学习节奏，把知识逐步转化为科研动作。</p>
           </div>
           <div className="timeline">
@@ -209,7 +210,7 @@ export default function Home() {
       <section className="section benefits-section" id="benefits">
         <div className="container">
           <div className="section-heading split-heading">
-            <div><h2>学员福利</h2></div>
+            <div className="ascii-section-title"><AsciiSectionMark /><h2>学员福利</h2></div>
             <p>不只完成课程，也带走可复用的方法、工具与持续探索的资源。</p>
           </div>
           <div className="benefit-explorer">
@@ -237,7 +238,7 @@ export default function Home() {
       <section className="section audience-section" id="audience">
         <div className="container audience-grid">
           <div className="audience-card">
-            <h2>适合人群</h2>
+            <div className="ascii-section-title"><AsciiSectionMark /><h2>适合人群</h2></div>
             <p>欢迎<strong>高校硕博研究生</strong>、<strong>科研工作者</strong>和<strong>科技行业从业者</strong>报名，无需AI技术背景。</p>
             <img className="audience-illustration" src="/audience-research-illustration.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </div>
@@ -246,7 +247,7 @@ export default function Home() {
 
       <section className="section faq-section" id="faq">
         <div className="container faq-grid">
-          <div className="section-heading"><h2>常见问题</h2></div>
+          <div className="section-heading"><div className="ascii-section-title"><AsciiSectionMark /><h2>常见问题</h2></div></div>
           <div className="faq-list">
             {faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<span>＋</span></summary><p>{answer}</p></details>)}
           </div>
@@ -259,7 +260,7 @@ export default function Home() {
           <div className="registration-content">
             <h2 aria-label="准备好，让书生·端砚成为你的科研助手">
               <span aria-hidden="true">准备好，让</span>
-              <span className="hero-title-latin" aria-hidden="true">书生·端砚</span>
+              <span aria-hidden="true">书生·端砚</span>
               <span aria-hidden="true">成为你的科研助手</span>
             </h2>
             <p className="registration-lead">登录后填写报名信息，系统将根据研究方向匹配班级群。</p>
