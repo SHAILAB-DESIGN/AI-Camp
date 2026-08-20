@@ -72,13 +72,13 @@ export default function Leaderboard() {
     <div className="leaderboard">
       <div className="leaderboard-head">
         <div>
-          <div className="ascii-section-title"><AsciiSectionMark /><h2>分享排行榜</h2></div>
+          <div className="ascii-section-title"><AsciiSectionMark /><h2>邀请排行榜</h2></div>
           {currentUser && <p className="current-user-rank">我的当前排名：第 {currentUser.rank} 名 · {currentUser.displayName} · 已邀请 {currentUser.invitations} 人</p>}
         </div>
         <span>按成功报名人数排序</span>
       </div>
       <div className="leaderboard-table">
-        <div className="table-head"><span>排名</span><span>用户昵称</span><span>邀请人数（人）</span></div>
+        <div className="table-head"><span>排名</span><span>用户昵称</span><span>邀请人数</span></div>
         {visibleRows.map((row, index) => {
           const rankIndex = (page - 1) * PAGE_SIZE + index;
           return <div className={`table-row${rankIndex < 3 ? ` top-rank rank-${rankIndex + 1}` : ""}`} key={row[0]}><b>{rankIndex < 3 ? <img className="rank-icon" src={rankIcons[rankIndex]} alt={`第${rankIndex + 1}名`} /> : row[0]}</b><span>{row[1]}</span><strong>{row[2]}</strong></div>;
@@ -92,7 +92,6 @@ export default function Leaderboard() {
           <button type="button" disabled={page === totalPages} onClick={() => setPage((current) => Math.min(totalPages, current + 1))}>下一页</button>
         </div>
       </div>
-      <small>当前榜单为视觉原型示例，正式上线后由有效报名数据实时生成。</small>
     </div>
   );
 }

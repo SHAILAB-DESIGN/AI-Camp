@@ -7,6 +7,7 @@ import { DownloadSimple } from "@phosphor-icons/react/dist/icons/DownloadSimple"
 import { WarningCircle } from "@phosphor-icons/react/dist/icons/WarningCircle";
 
 const identities = ["本科生", "硕士生", "博士生", "博士后", "高校教师", "科研人员", "其他"];
+const grades = ["大一", "大二", "大三", "大四", "大五", "研一", "研二", "研三", "博一", "博二", "博三", "博四", "博五"];
 const fields = ["材料科学", "生命科学", "地球科学", "化学", "其他"];
 const sources = ["上海科协", "高校通知", "爱赛思社区", "主办方公众号", "合作媒体", "同学推荐", "其他"];
 
@@ -151,36 +152,39 @@ export default function RegistrationForm() {
             <section className="form-block" id="basic">
               <div className="form-title"><span>01</span><div><h2>基本信息</h2><p>用于确认身份并接收活动通知</p></div></div>
               <div className="field-grid">
-                <label><span>姓名 *</span><input required name="name" placeholder="请输入姓名" aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />{errors.name && <small className="field-error" id="name-error">{errors.name}</small>}</label>
-                <label><span>手机号 *</span><input required name="phone" inputMode="tel" pattern="1[3-9][0-9]{9}" placeholder="请输入11位手机号" aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : undefined} />{errors.phone && <small className="field-error" id="phone-error">{errors.phone}</small>}</label>
+                <label><span>姓名 · 必填</span><input required name="name" autoComplete="name" placeholder="请输入姓名" aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />{errors.name && <small className="field-error" id="name-error">{errors.name}</small>}</label>
+                <label><span>手机号 *</span><input required name="phone" inputMode="tel" autoComplete="tel" pattern="1[3-9][0-9]{9}" placeholder="请输入手机号" aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : undefined} /><small className="field-hint">优先填写端砚账号绑定手机号</small>{errors.phone && <small className="field-error" id="phone-error">{errors.phone}</small>}</label>
                 <label><span>所在省份 *</span><select required name="province" value={selectedProvince} onChange={(event) => { setSelectedProvince(event.target.value); setSelectedCity(""); }} aria-invalid={Boolean(errors.province)} aria-describedby={errors.province ? "province-error" : undefined}><option value="">请选择省份</option>{Object.keys(provinceCities).map((province) => <option value={province} key={province}>{province}</option>)}</select>{errors.province && <small className="field-error" id="province-error">{errors.province}</small>}</label>
                 <label><span>所在城市 *</span><select required name="city" value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} disabled={!selectedProvince} aria-invalid={Boolean(errors.city)} aria-describedby={errors.city ? "city-error" : undefined}><option value="">{selectedProvince ? "请选择城市" : "请先选择省份"}</option>{(provinceCities[selectedProvince] || []).map((city) => <option value={city} key={city}>{city}</option>)}</select>{errors.city && <small className="field-error" id="city-error">{errors.city}</small>}</label>
-                <label className="wide"><span>学校 / 单位 *</span><input required name="organization" placeholder="请输入学校或单位名称" aria-invalid={Boolean(errors.organization)} aria-describedby={errors.organization ? "organization-error" : undefined} />{errors.organization && <small className="field-error" id="organization-error">{errors.organization}</small>}</label>
+                <label className="wide"><span>学校/单位 *</span><input required name="organization" autoComplete="organization" placeholder="请输入学校或单位名称" aria-invalid={Boolean(errors.organization)} aria-describedby={errors.organization ? "organization-error" : undefined} />{errors.organization && <small className="field-error" id="organization-error">{errors.organization}</small>}</label>
               </div>
             </section>
 
             <section className="form-block" id="research">
               <div className="form-title"><span>02</span><div><h2>学习与研究背景</h2><p>帮助我们安排更匹配的学习分组</p></div></div>
               <fieldset className={errors.identity ? "field-error-group" : undefined}><legend>当前身份 *</legend><div className="choice-grid">{identities.map(item => <label key={item}><input required type="radio" name="identity" value={item} aria-invalid={Boolean(errors.identity)} aria-describedby={errors.identity ? "identity-error" : undefined} /><span>{item}</span></label>)}</div>{errors.identity && <p className="field-error" id="identity-error">{errors.identity}</p>}</fieldset>
+              <fieldset><legend>当前年级</legend><div className="choice-grid">{grades.map(item => <label key={item}><input type="radio" name="grade" value={item} /><span>{item}</span></label>)}</div></fieldset>
               <fieldset className={errors.field ? "field-error-group" : undefined}><legend>研究方向 *</legend><div className="choice-grid">{fields.map(item => <label key={item}><input required type="radio" name="field" value={item} aria-invalid={Boolean(errors.field)} aria-describedby={errors.field ? "field-error" : undefined} /><span>{item}</span></label>)}</div>{errors.field && <p className="field-error" id="field-error">{errors.field}</p>}</fieldset>
               <label className="single-field"><span>具体研究内容 *</span><input required name="topic" placeholder="示例：电池材料、蛋白质设计、气候预测" aria-invalid={Boolean(errors.topic)} aria-describedby={errors.topic ? "topic-error" : undefined} />{errors.topic && <small className="field-error" id="topic-error">{errors.topic}</small>}</label>
             </section>
 
             <section className={`form-block${errors.ability ? " field-error-group" : ""}`} id="ability">
-              <div className="form-title"><span>03</span><div><h2>AI 科研能力 *</h2><p>请选择最符合当前情况的一项</p></div></div>
+              <div className="form-title"><span>03</span><div><h2>AI科研能力 *</h2><p>请选择最符合当前情况的一项</p></div></div>
+              <p className="form-prompt">您使用AI工具完成真实科研任务的能力</p>
               <div className="ability-grid">{[
-                ["1", "不了解如何将 AI 应用于科研任务"], ["2", "了解部分工具，但需要较多指导"], ["3", "能用 AI 完成部分科研任务"], ["4", "能独立完成大多数科研任务"], ["5", "已形成稳定、可复用的工作流"],
-              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={score} aria-describedby={errors.ability ? "ability-error" : undefined} /><span>{text}</span></label>)}</div>
+                ["1", "不了解如何将AI应用于科研任务"], ["2", "了解部分工具，但需要较多指导才能使用"], ["3", "能够使用AI完成部分科研任务"], ["4", "能够独立使用AI完成大多数科研任务"], ["5", "能够形成稳定、可复用的AI科研工作流"],
+              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={`${score}分`} aria-describedby={errors.ability ? "ability-error" : undefined} /><span><strong>{score}分</strong>{text}</span></label>)}</div>
               {errors.ability && <p className="field-error" id="ability-error">{errors.ability}</p>}
             </section>
 
             <section className="form-block" id="source">
-              <div className="form-title"><span>04</span><div><h2>活动来源</h2><p>你从哪里了解到本次活动</p></div></div>
+              <div className="form-title"><span>04</span><div><h2>活动来源</h2><p>您从哪里了解到本次活动</p></div></div>
+              <p className="form-prompt">选择您获得活动信息的渠道。</p>
               <div className="choice-grid">{sources.map(item => <label key={item}><input type="radio" name="source" value={item} /><span>{item}</span></label>)}</div>
             </section>
 
             <label className={`consent${errors.consent ? " consent-error" : ""}`}><input required type="checkbox" name="consent" aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? "consent-error" : undefined} /><span>同意将报名信息用于上海人工智能实验室的活动通知、分班和课程运营 *{errors.consent && <small className="field-error" id="consent-error">{errors.consent}</small>}</span></label>
-            <div className="form-actions"><Link className="line-button large" href="/">取消</Link><button className="primary-button large" type="submit">提交</button></div>
+            <div className="form-actions"><Link className="line-button large" href="/">取消</Link><button className="primary-button large" type="submit">提交报名 →</button></div>
           </form>
       </div>
   );

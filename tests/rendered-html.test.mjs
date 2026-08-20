@@ -19,7 +19,7 @@ test("defines the public activity routes and metadata", async () => {
   assert.match(layout, /AI科研加速营｜书生·端砚/);
   assert.match(home, /AI科研加速营/);
   assert.match(register, /AI 科研加速营报名/);
-  assert.match(invitations, /邀请福利/);
+  assert.match(invitations, /邀请好友赢好礼/);
 });
 
 test("keeps required registration validation in source", async () => {
@@ -29,6 +29,8 @@ test("keeps required registration validation in source", async () => {
     assert.match(form, new RegExp(`nextErrors\\.${field}`));
   }
   assert.match(form, /nextErrors\.consent/);
+  assert.match(form, /当前年级/);
+  assert.match(form, /优先填写端砚账号绑定手机号/);
 });
 
 test("keeps the leaderboard paginated", async () => {

@@ -14,7 +14,6 @@ export default function RegisterPage() {
               <span className="hero-title-latin" aria-hidden="true">AI</span>
               <span className="hero-title-cn" aria-hidden="true">科研加速营报名</span>
             </h1>
-            <p>填写信息后，我们将根据研究方向匹配学习分组。带 * 的项目为必填项。</p>
           </div>
         </div>
       </header>
