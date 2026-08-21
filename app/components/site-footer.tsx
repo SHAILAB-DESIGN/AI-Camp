@@ -14,7 +14,7 @@ export default function SiteFooter() {
           <b>活动</b>
           <Link href="/#courses">课程内容</Link>
           <Link href="/#schedule">活动时间</Link>
-          <Link href="/#benefits">学员权益</Link>
+          <Link href="/#benefits">学员福利</Link>
         </nav>
         <nav className="site-footer-column" aria-label="参与导航">
           <b>参与</b>

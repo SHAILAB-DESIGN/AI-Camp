@@ -45,10 +45,9 @@ const tracks: Record<Track, { label: string; note: string; courses: Array<{ no: 
 
 const benefits = [
   ["01", "AI科研工作流", "掌握一套可复用的科研方法", "/benefit-workflow.webp"],
-  ["02", "个人科研Agent Skill", "将高频流程沉淀为个人工具", "/benefit-agent-skill.webp"],
-  ["03", "课程结业证书", "符合结业要求即可获得证书", "/benefit-certificate.webp"],
-  ["04", "免费算力额度", "支持课程实践与科研探索", "/benefit-compute.webp"],
-  ["05", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.webp"],
+  ["02", "课程结业证书", "符合结业要求即可获得证书", "/benefit-certificate.webp"],
+  ["03", "免费算力额度", "支持课程实践与科研探索", "/benefit-compute.webp"],
+  ["04", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.webp"],
 ];
 
 export default function Home() {
@@ -132,7 +131,9 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const directoryItems = [["courses", "课程内容"], ["schedule", "活动时间"], ["benefits", "学员权益"], ["audience", "适合人群"], ["registration", "报名方式"]];
+  const activeBenefitIndex = Math.min(activeBenefit, benefits.length - 1);
+  const activeBenefitItem = benefits[activeBenefitIndex];
+  const directoryItems = [["courses", "课程内容"], ["schedule", "活动时间"], ["benefits", "学员福利"], ["audience", "适合人群"], ["registration", "报名方式"]];
 
   return (
     <main className="home-page">
@@ -213,16 +214,16 @@ export default function Home() {
           <div className="benefit-explorer">
             <article className="benefit-focus" aria-live="polite">
               <div className="benefit-focus-media">
-                <img src={benefits[activeBenefit][3]} alt={`${benefits[activeBenefit][1]}插图`} loading="lazy" decoding="async" />
+                <img src={activeBenefitItem[3]} alt={`${activeBenefitItem[1]}插图`} loading="lazy" decoding="async" />
               </div>
               <div className="benefit-focus-copy">
-                <h3>{benefits[activeBenefit][1]}</h3>
-                <p>{benefits[activeBenefit][2]}</p>
+                <h3>{activeBenefitItem[1]}</h3>
+                <p>{activeBenefitItem[2]}</p>
               </div>
             </article>
-            <div className="benefit-options" aria-label="学员权益列表">
+            <div className="benefit-options" aria-label="学员福利列表">
               {benefits.map(([no, title, text, image], index) => (
-                <button key={title} className={activeBenefit === index ? "active" : ""} type="button" onMouseEnter={() => setActiveBenefit(index)} onFocus={() => setActiveBenefit(index)} onClick={() => setActiveBenefit(index)}>
+                <button key={title} className={activeBenefitIndex === index ? "active" : ""} type="button" onMouseEnter={() => setActiveBenefit(index)} onFocus={() => setActiveBenefit(index)} onClick={() => setActiveBenefit(index)}>
                   <img className="benefit-option-image" src={image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                   <span>{no}</span><h3>{title}</h3><p>{text}</p>
                 </button>
@@ -260,23 +261,23 @@ export default function Home() {
 
       <section className="organizations">
         <div className="container">
-          <div className="org-grid">
-            <article className="org-item">
-              <span>主办单位</span>
-              <img className="org-logo" src="/org-shlab.png?v=3" alt="上海人工智能实验室" />
+          <h2 className="organizations-title">组织单位</h2>
+          <div className="org-primary-grid">
+            <article className="org-group">
+              <h3>主办单位</h3>
+              <div className="org-logo-tile"><img className="org-logo" src="/org-shlab.png?v=3" alt="上海人工智能实验室" /></div>
             </article>
-            <article className="org-item">
-              <span>联合主办单位</span>
-              <img className="org-logo" src="/org-sast.png?v=3" alt="上海市科学技术协会" />
+            <article className="org-group">
+              <h3>联合主办单位</h3>
+              <div className="org-logo-tile"><img className="org-logo" src="/org-sast.png?v=3" alt="上海市科学技术协会" /></div>
             </article>
-            <article className="org-item">
-              <span>协办单位</span>
-              <img className="org-logo" src="/org-ai4science.png?v=3" alt="智爱赛思社区" />
-            </article>
-            <article className="org-item org-item-secondary">
-              <span className="org-label-placeholder" aria-hidden="true">协办单位</span>
-              <img className="org-logo" src="/org-koushare.png?v=3" alt="蔻享学术" />
-            </article>
+          </div>
+          <div className="org-support-group">
+            <h3>协办单位</h3>
+            <div className="org-support-logos">
+              <div className="org-logo-tile"><img className="org-logo" src="/org-ai4science.png?v=3" alt="智爱赛思社区" /></div>
+              <div className="org-logo-tile"><img className="org-logo" src="/org-koushare.png?v=3" alt="蔻享学术" /></div>
+            </div>
           </div>
         </div>
       </section>
