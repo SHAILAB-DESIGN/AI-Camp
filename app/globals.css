@@ -359,7 +359,7 @@ a { color: inherit; }
 .learner-dashboard-head p:not(.section-mark) { max-width: 720px; margin: 0; color: var(--ink-soft); }
 .learner-group-card, .learner-progress-card { border: 1px solid var(--rule); background: var(--paper-light); padding: 28px; }
 .learner-success-heading { padding: 8px 0 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid var(--rule); text-align: center; }
-.learner-success-mark { width: 112px; height: 96px; margin-bottom: 16px; position: relative; display: grid; place-items: center; color: rgba(12,60,128,.7); }
+.learner-success-mark { width: 112px; height: 96px; margin-bottom: 8px; position: relative; display: grid; place-items: center; color: rgba(12,60,128,.7); }
 .learner-success-mark::before { content: ""; position: absolute; width: 76px; height: 76px; border: 1.5px solid rgba(12,60,128,.2); border-radius: 50%; }
 .learner-success-mark svg { display: block; }
 .learner-success-heading h2 { margin: 0; font-family: "Songti SC", "STSong", serif; font-size: 36px; line-height: 1.08; }
@@ -368,7 +368,7 @@ a { color: inherit; }
 .learner-card-heading > span { color: var(--blue); font: 600 13px/1 var(--font-geist-mono), monospace; }
 .learner-card-heading h3 { margin: 0; font-family: "Songti SC", "STSong", serif; font-size: 24px; line-height: 1.2; }
 .learner-card-heading p { margin: 4px 0 0; color: var(--ink-faint); font-size: 12px; }
-.learner-group-card { text-align: center; }
+.learner-group-card { padding-bottom: 44px; text-align: center; }
 .learner-group-card .learner-card-heading { text-align: left; }
 .learner-group-card > img { width: min(240px, 72%); height: auto; aspect-ratio: 1; margin: 24px auto 14px; padding: 8px; display: block; border: 1px solid var(--rule); background: #fff; object-fit: contain; }
 .learner-group-card > strong { display: block; font-size: 15px; }
@@ -596,6 +596,7 @@ a { color: inherit; }
   .form-actions .line-button, .form-actions .primary-button { flex: 1; }
   .learner-dashboard { padding-top: 32px; padding-bottom: 54px; }
   .learner-group-card, .learner-progress-card { padding: 22px 18px; }
+  .learner-group-card { padding-bottom: 34px; }
   .learner-success-heading { align-items: center; justify-content: center; }
   .learner-success-heading h2 { font-size: 32px; }
   .learner-success-heading p { font-size: 13px; line-height: 1.6; }
