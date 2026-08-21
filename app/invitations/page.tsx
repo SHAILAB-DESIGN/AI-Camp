@@ -14,7 +14,7 @@ export default function InvitationsPage() {
         </div>
         <div className="reward-list">
           <article><div className="reward-banner reward-banner-gift" aria-hidden="true" /><div className="reward-card-copy"><h3>社区周边礼品</h3><p>邀请排行榜 Top10 可以获得</p></div></article>
-          <article><div className="reward-banner reward-banner-compute" aria-hidden="true" /><div className="reward-card-copy"><h3>免费算力额度</h3><p>每邀请 X 人可获得 XX 积分</p></div></article>
+          <article><div className="reward-banner reward-banner-compute" aria-hidden="true" /><div className="reward-card-copy"><h3>免费算力额度</h3><p>邀请排行榜Top50 可获得10 墨点算力</p></div></article>
           <article><div className="reward-banner reward-banner-certificate" aria-hidden="true" /><div className="reward-card-copy"><h3>研习召集人证书</h3><p>成功邀请 10 人以上可获得</p></div></article>
         </div>
         <p className="reward-note">礼品样式及算力额度以活动最终通知为准。</p>

@@ -120,8 +120,9 @@ export default function RegistrationForm() {
         <section className="container learner-dashboard" aria-label="报名完成后的学习信息">
           <article className="learner-group-card">
             <div className="learner-success-heading">
-              <CheckCircle size={42} weight="regular" aria-hidden="true" />
-              <div><h2>报名成功</h2><p>你的报名信息已提交，请加入下方班级群并关注课程通知。</p></div>
+              <div className="learner-success-mark" aria-hidden="true"><CheckCircle size={62} weight="regular" /></div>
+              <h2>报名成功</h2>
+              <p>你的报名信息已提交，请加入下方班级群并关注课程通知。</p>
             </div>
             <img src={selectedGroup.qr} alt={`${selectedGroup.name}二维码`} width="240" height="240" />
             <strong>使用微信扫码加入</strong>
