@@ -509,7 +509,7 @@ a { color: inherit; }
   .hero-meta span { font-size: 14px; }
   .hero-primary-actions { width: min(100%, 360px); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .hero-share-card { min-height: 52px; padding-inline: 10px; font-size: 14px; }
-  .section-nav { display: block; height: 52px; top: var(--nav-h); }
+  .section-nav { display: block; height: 52px; top: calc(var(--nav-h) - 1px); }
   .section-nav > div { width: 100%; margin: 0; }
   .section-nav a { flex: 1 1 25%; min-width: 0; padding: 0 4px; font-size: var(--mobile-text-secondary); }
   .section-nav a:last-child { display: none; }
