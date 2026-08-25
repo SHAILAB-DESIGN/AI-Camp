@@ -512,7 +512,7 @@ a { color: inherit; }
   .section-nav { display: block; height: 52px; top: var(--nav-h); }
   .section-nav > div { width: 100%; margin: 0; }
   .section-nav a { flex: 1 1 25%; min-width: 0; padding: 0 4px; font-size: var(--mobile-text-secondary); }
-  .section-nav a:first-child, .section-nav a:last-child { display: none; }
+  .section-nav a:last-child { display: none; }
   .section { padding: 52px 0; }
   .section-heading h2 { font-size: var(--mobile-title-section); }
   .ascii-section-mark { width: 50%; height: 38%; left: 0; top: -3px; }
@@ -548,14 +548,14 @@ a { color: inherit; }
   .benefit-options h3 { align-self: end; padding: 14px 16px 0; font-size: var(--mobile-text-subtitle); line-height: 1.35; }
   .benefit-options p { align-self: start; padding: 0 16px 14px; font-size: var(--mobile-text-secondary); line-height: 1.55; }
   .benefit-options h3, .benefit-options p { grid-column: 2; }
-  .audience-card { min-height: 390px; padding: 24px; }
+  .audience-card { min-height: 330px; padding: 24px; }
   .audience-card h2 { font-size: var(--mobile-title-section); }
   .audience-card > p:not(.section-mark), .faq-list details p { font-size: var(--mobile-text-body); }
   .audience-card > p:not(.section-mark) { max-width: none; margin-top: 20px; }
-  .audience-illustration { width: 380px; max-width: 110%; right: -38px; bottom: -132px; }
+  .audience-illustration { width: 360px; max-width: 104%; right: -34px; bottom: -112px; }
   .faq-list summary { font-size: var(--mobile-text-subtitle); }
   .registration-section { min-height: 300px; padding: 48px 0; }
-  .registration-section h2 { font-size: clamp(36px, 10vw, 48px); }
+  .registration-section h2 { font-size: clamp(30px, 7.5vw, 38px); }
   .registration-lead { font-size: 16px; }
   .registration-actions { flex-direction: column; gap: 10px; margin-top: 28px; }
   .registration-button { width: 100%; min-width: 0; }
