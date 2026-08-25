@@ -529,7 +529,7 @@ a { color: inherit; }
   .track-tabs button:last-child { border-right: 0; }
   .track-tabs b { font-size: 14px; }
   .track-tabs small { display: none; }
-  .course-ledger { margin-top: 12px; }
+  .course-ledger { margin-top: 0; }
   .course-row { grid-template-columns: 42px 1fr; gap: 12px; padding: 22px 18px; }
   .course-row h3 { font-size: var(--mobile-text-subtitle); }
   .course-row ul { columns: 1; grid-column: 2; font-size: var(--mobile-text-secondary); }
