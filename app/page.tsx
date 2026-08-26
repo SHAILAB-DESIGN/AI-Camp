@@ -300,6 +300,22 @@ export default function Home() {
                 </div>
               </article>
             ))}
+            <article className="org-group">
+              <h3>媒体支持</h3>
+              <div className="org-logo-grid org-logo-grid-secondary">
+                {organizers.media.map((organization) => (
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                ))}
+              </div>
+            </article>
+            <article className="org-group">
+              <h3>算力支持</h3>
+              <div className="org-logo-grid org-logo-grid-secondary">
+                {organizers.computing.map((organization) => (
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                ))}
+              </div>
+            </article>
           </div>
           <article className="org-support-group">
             <h3>协办单位</h3>
@@ -309,24 +325,6 @@ export default function Home() {
               ))}
             </div>
           </article>
-          <div className="org-secondary-grid">
-            <article className="org-support-group">
-              <h3>媒体支持</h3>
-              <div className="org-logo-grid org-logo-grid-secondary">
-                {organizers.media.map((organization) => (
-                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
-                ))}
-              </div>
-            </article>
-            <article className="org-support-group">
-              <h3>算力支持</h3>
-              <div className="org-logo-grid org-logo-grid-secondary">
-                {organizers.computing.map((organization) => (
-                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
-                ))}
-              </div>
-            </article>
-          </div>
         </div>
       </section>
 
