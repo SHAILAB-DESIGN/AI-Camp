@@ -13,38 +13,42 @@ import AsciiSectionMark from "./components/ascii-section-mark";
 
 type Track = "workflow" | "skill" | "cases";
 
+function alignAi(text: string) {
+  return text.split(/(AI)(?![A-Za-z0-9])/g).map((part, index) => part === "AI" ? <span className="inline-ai" key={`${part}-${index}`}>AI</span> : part);
+}
+
 const tracks: Record<Track, { label: string; note: string; courses: Array<{ no: string; title: string; points: string[] }> }> = {
   workflow: {
     label: "科研工作流",
     note: "共 5 讲",
     courses: [
-      { no: "01", title: "用AI快速看懂一个研究方向", points: ["掌握高质量科研提问方法", "梳理研究方向的演进脉络与领域全景", "明确关键问题和文献检索入口"] },
-      { no: "02", title: "AI论文工作流：检索、精读与核验", points: ["根据科研任务选择快速或深度搜索", "掌握论文精读与关键信息提炼方法", "核验论文来源、观点依据与引用一致性"] },
+      { no: "01", title: "用 AI 快速看懂一个研究方向", points: ["掌握高质量科研提问方法", "梳理研究方向的演进脉络与领域全景", "明确关键问题和文献检索入口"] },
+      { no: "02", title: "AI 论文工作流：检索、精读与核验", points: ["根据科研任务选择快速或深度搜索", "掌握论文精读与关键信息提炼方法", "核验论文来源、观点依据与引用一致性"] },
       { no: "03", title: "建立可持续更新的研究上下文", points: ["理解研究上下文对科研推进的作用", "掌握研究上下文的核心构成", "将阶段成果沉淀为可复用的研究记录"] },
-      { no: "04", title: "AI辅助实验设计：科学数据与计算一体化实践", points: ["用 AI 快速设计与优化实验方案", "检索和使用科学数据的方法步骤", "借助科学计算完成分析与验证"] },
-      { no: "05", title: "AI辅助论文与课题申请书写作", points: ["基于研究资料形成写作思路与大纲", "辅助完成初稿并优化内容结构", "核验引用真实性与内容一致性"] },
+      { no: "04", title: "AI 辅助实验设计：科学数据与计算一体化实践", points: ["用 AI 快速设计与优化实验方案", "检索和使用科学数据的方法步骤", "借助科学计算完成分析与验证"] },
+      { no: "05", title: "AI 辅助论文与课题申请书写作", points: ["基于研究资料形成写作思路与大纲", "辅助完成初稿并优化内容结构", "核验引用真实性与内容一致性"] },
     ],
   },
   skill: {
     label: "Agent Skill",
     note: "共 1 讲",
     courses: [
-      { no: "06", title: "把科研方法沉淀为可复用的Agent Skill", points: ["了解Agent Skill及其科研应用场景", "将高频科研流程转化为个人科研Skill", "发现、复用并优化优质科研Skill"] },
+      { no: "06", title: "把科研方法沉淀为可复用的 Agent Skill", points: ["了解 Agent Skill 及其科研应用场景", "将高频科研流程转化为个人科研 Skill", "发现、复用并优化优质科研 Skill"] },
     ],
   },
   cases: {
-    label: "AI4S案例",
+    label: "AI4S 案例",
     note: "共 3 讲",
     courses: [
       { no: "07", title: "通往可扩展、统一的蛋白基础模型之路", points: ["蛋白质基座模型：序列、结构、功能的统一建模", "AMix-1:：大模型方法论赋能蛋白质模型", "AMix-2：迈向多模态蛋白质理解生成模型"] },
       { no: "08", title: "大模型时代的物质科学研究", points: ["物质科学是一切自然科学的基础", "化学大模型、智能体和评测集介绍", "人工智能赋能物质科学应用案例"] },
-      { no: "09", title: "地球科学中的科学智能：从工具的革命到革命的工具", points: ["风乌全球预报体系", "Earth-o1端到端大气世界模型", "EarthLink自进化人机交互智能体系统"] },
+      { no: "09", title: "地球科学中的科学智能：从工具的革命到革命的工具", points: ["风乌全球预报体系", "Earth-o1 端到端大气世界模型", "EarthLink 自进化人机交互智能体系统"] },
     ],
   },
 };
 
 const benefits = [
-  ["01", "AI科研工作流", "掌握一套可复用的科研方法", "/benefit-workflow.webp"],
+  ["01", "AI 科研工作流", "掌握一套可复用的科研方法", "/benefit-workflow.webp"],
   ["02", "课程结业证书", "符合结业要求即可获得证书", "/benefit-certificate.webp"],
   ["03", "免费算力额度", "支持课程实践与科研探索", "/benefit-compute.webp"],
   ["04", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.webp"],
@@ -147,11 +151,11 @@ export default function Home() {
         <SequenceStream />
         <div className="hero-inner">
           <div className="hero-copy">
-            <h1 aria-label="AI科研加速营">
+            <h1 aria-label="AI 科研加速营">
               <span className="hero-title-latin" aria-hidden="true">AI</span>
               <span className="hero-title-cn" aria-hidden="true">科研加速营</span>
             </h1>
-            <p className="hero-lead">AI科研加速营是专为科研人员和科技工作者设立的公益培训活动。 课程围绕文献调研、论文精读、实验设计与科研写作等真实科研任务， 采用线上微课与工具实操相结合的学习形式， 帮助学员建立一套可上手、可复用的AI科研工作流。</p>
+            <p className="hero-lead">{alignAi("AI 科研加速营是专为科研人员和科技工作者设立的公益培训活动。 课程围绕文献调研、论文精读、实验设计与科研写作等真实科研任务， 采用线上微课与工具实操相结合的学习形式， 帮助学员建立一套可上手、可复用的 AI 科研工作流。")}</p>
             <div className="hero-actions">
               <div className="hero-meta" aria-label="活动时间与学习方式">
                 <div><CalendarDots size={25} weight="regular" aria-hidden="true" /><span>9月14日开营</span></div>
@@ -191,8 +195,8 @@ export default function Home() {
             {tracks[track].courses.map((course) => (
               <article className="course-row" key={course.no}>
                 <span className="course-no">{course.no}</span>
-                <h3>{course.title}</h3>
-                <ul>{course.points.map((point) => <li key={point}>{point}</li>)}</ul>
+                <h3>{alignAi(course.title)}</h3>
+                <ul>{course.points.map((point) => <li key={point}>{alignAi(point)}</li>)}</ul>
               </article>
             ))}
           </div>
@@ -223,7 +227,7 @@ export default function Home() {
                 <img src={activeBenefitItem[3]} alt={`${activeBenefitItem[1]}插图`} loading="lazy" decoding="async" />
               </div>
               <div className="benefit-focus-copy">
-                <h3>{activeBenefitItem[1]}</h3>
+                <h3>{alignAi(activeBenefitItem[1])}</h3>
                 <p>{activeBenefitItem[2]}</p>
               </div>
             </article>
@@ -231,7 +235,7 @@ export default function Home() {
               {benefits.map(([no, title, text, image], index) => (
                 <button key={title} className={activeBenefitIndex === index ? "active" : ""} type="button" onMouseEnter={() => setActiveBenefit(index)} onFocus={() => setActiveBenefit(index)} onClick={() => setActiveBenefit(index)}>
                   <img className="benefit-option-image" src={image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                  <span>{no}</span><h3>{title}</h3><p>{text}</p>
+                  <span>{no}</span><h3>{alignAi(title)}</h3><p>{alignAi(text)}</p>
                 </button>
               ))}
             </div>
@@ -243,7 +247,7 @@ export default function Home() {
         <div className="container audience-grid">
           <div className="audience-card">
             <div className="ascii-section-title"><AsciiSectionMark /><h2>适合人群</h2></div>
-            <p>欢迎<strong>高校硕博研究生</strong>、<strong>科研工作者</strong>和<strong>科技行业从业者</strong>报名，无需AI技术背景。</p>
+            <p>欢迎<strong>高校硕博研究生</strong>、<strong>科研工作者</strong>和<strong>科技行业从业者</strong>报名，无需 {alignAi("AI 技术背景。")}</p>
             <img className="audience-illustration" src="/audience-research-illustration.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </div>
         </div>
@@ -305,7 +309,7 @@ export default function Home() {
               <a href="/invitations">邀请排行 →</a>
             </div>
             <div className="share-modal-actions">
-              <a className="line-button large" href="/invitation-poster-virtual.webp?v=7" download="AI科研加速营邀请海报.webp">保存长图</a>
+              <a className="line-button large" href="/invitation-poster-virtual.webp?v=7" download="AI 科研加速营邀请海报.webp">保存长图</a>
               <button className="primary-button large" type="button" onClick={shareCampLink}>{shareStatus}</button>
             </div>
           </section>

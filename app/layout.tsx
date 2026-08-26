@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI科研加速营｜书生·端砚",
-  description: "面向科研人员的AI工作流训练计划，覆盖文献调研、论文精读、实验设计、科学计算与科研写作。",
+  title: "AI 科研加速营｜书生·端砚",
+  description: "面向科研人员的 AI 工作流训练计划，覆盖文献调研、论文精读、实验设计、科学计算与科研写作。",
   icons: {
     icon: "/intern-discovery-logo.png",
     shortcut: "/intern-discovery-logo.png",

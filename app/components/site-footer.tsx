@@ -37,7 +37,7 @@ export default function SiteFooter() {
         </div>
       </div>
       <div className="container site-footer-bottom">
-        <span>© 沪ICP备2021009351号-21</span>
+        <span>© 沪 ICP 备 2021009351 号-21</span>
       </div>
     </footer>
   );

@@ -9,6 +9,10 @@ const identities = ["本科生", "硕士生", "博士生", "博士后", "高校�
 const fields = ["材料科学", "生命科学", "地球科学", "化学", "其他"];
 const sources = ["上海科协", "高校通知", "爱赛思社区", "主办方公众号", "合作媒体", "同学推荐", "其他"];
 
+function alignAi(text: string) {
+  return text.split(/(AI)(?![A-Za-z0-9])/g).map((part, index) => part === "AI" ? <span className="inline-ai" key={`${part}-${index}`}>AI</span> : part);
+}
+
 const provinceCities: Record<string, string[]> = {
   "北京市": ["北京市"], "天津市": ["天津市"], "上海市": ["上海市"], "重庆市": ["重庆市"],
   "河北省": ["石家庄市", "唐山市", "秦皇岛市", "邯郸市", "保定市", "廊坊市"],
@@ -178,11 +182,11 @@ export default function RegistrationForm() {
             </section>
 
             <section className={`form-block${errors.ability ? " field-error-group" : ""}`} id="ability">
-              <div className="form-title"><span>03</span><div><h2>AI科研能力</h2><p>请选择最符合当前情况的一项</p></div></div>
-              <p className="form-prompt">您使用AI工具完成真实科研任务的能力 <em aria-label="必填">*</em></p>
+              <div className="form-title"><span>03</span><div><h2>{alignAi("AI 科研能力")}</h2><p>请选择最符合当前情况的一项</p></div></div>
+              <p className="form-prompt">{alignAi("您使用 AI 工具完成真实科研任务的能力")} <em aria-label="必填">*</em></p>
               <div className="ability-grid">{[
-                ["1", "不了解如何将AI应用于科研任务"], ["2", "了解部分工具，但需要较多指导才能使用"], ["3", "能够使用AI完成部分科研任务"], ["4", "能够独立使用AI完成大多数科研任务"], ["5", "能够形成稳定、可复用的AI科研工作流"],
-              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={`${score}分`} aria-describedby={errors.ability ? "ability-error" : undefined} /><span><strong>{score}分</strong>{text}</span></label>)}</div>
+                ["1", "不了解如何将 AI 应用于科研任务"], ["2", "了解部分工具，但需要较多指导才能使用"], ["3", "能够使用 AI 完成部分科研任务"], ["4", "能够独立使用 AI 完成大多数科研任务"], ["5", "能够形成稳定、可复用的 AI 科研工作流"],
+              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={`${score}分`} aria-describedby={errors.ability ? "ability-error" : undefined} /><span><strong>{score}分</strong>{alignAi(text)}</span></label>)}</div>
               {errors.ability && <p className="field-error" id="ability-error">{errors.ability}</p>}
             </section>
 
