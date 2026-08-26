@@ -6,6 +6,11 @@ import { DownloadSimple } from "@phosphor-icons/react/dist/icons/DownloadSimple"
 import { WarningCircle } from "@phosphor-icons/react/dist/icons/WarningCircle";
 
 const identities = ["本科生", "硕士生", "博士生", "博士后", "高校教师", "科研人员", "其他"];
+const studentGrades: Record<string, string[]> = {
+  "本科生": ["大一", "大二", "大三", "大四", "大五"],
+  "硕士生": ["研一", "研二", "研三"],
+  "博士生": ["博一", "博二", "博三", "博四", "博五"],
+};
 const fields = ["材料科学", "生命科学", "地球科学", "化学", "其他"];
 const sources = ["上海科协", "高校通知", "爱赛思社区", "主办方公众号", "合作媒体", "同学推荐", "其他"];
 
@@ -60,6 +65,8 @@ export default function RegistrationForm() {
   const [selectedField, setSelectedField] = useState("其他");
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [selectedIdentity, setSelectedIdentity] = useState("");
+  const [selectedGrade, setSelectedGrade] = useState("");
   const selectedGroup = groupConfigs[selectedField] ?? groupConfigs["其他"];
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -77,6 +84,7 @@ export default function RegistrationForm() {
     if (!value("city")) nextErrors.city = "请选择所在城市";
     if (!value("organization")) nextErrors.organization = "请输入学校或单位名称";
     if (!value("identity")) nextErrors.identity = "请选择当前身份";
+    if (studentGrades[value("identity")] && !value("grade")) nextErrors.grade = "请选择当前年级";
     if (!value("field")) nextErrors.field = "请选择研究方向";
     if (!value("topic")) nextErrors.topic = "请填写具体研究内容";
     if (!value("ability")) nextErrors.ability = "请选择当前 AI 科研能力";
@@ -121,9 +129,9 @@ export default function RegistrationForm() {
 
   useEffect(() => {
     const page = document.querySelector("main");
-    page?.classList.toggle("registration-complete", submitted);
+    page?.classList.toggle("registration-complete", submitted || closedPreview);
     return () => page?.classList.remove("registration-complete");
-  }, [submitted]);
+  }, [submitted, closedPreview]);
 
   useEffect(() => {
     const page = document.querySelector("main");
@@ -131,19 +139,23 @@ export default function RegistrationForm() {
     return () => page?.classList.remove("registration-closed");
   }, [closedPreview]);
 
-  if (submitted) {
+  if (submitted || closedPreview) {
+    const isRegistrationClosed = closedPreview && !submitted;
+    const resultQr = isRegistrationClosed ? "/activity-consultation-qr.png" : selectedGroup.qr;
+    const resultQrAlt = isRegistrationClosed ? "活动咨询微信二维码" : `${selectedGroup.name}二维码`;
+
     return (
-        <section className="container learner-dashboard" aria-label="报名完成后的学习信息">
+        <section className="container learner-dashboard" aria-label={isRegistrationClosed ? "报名结束提示" : "报名完成后的学习信息"}>
           <article className="learner-group-card">
             <div className="learner-success-heading">
-              <div className="learner-success-mark" aria-hidden="true"><CheckCircle size={62} weight="regular" /></div>
-              <h2>报名成功</h2>
-              <p>你的报名信息已提交，请加入下方班级群并关注课程通知。</p>
+              {!isRegistrationClosed && <div className="learner-success-mark" aria-hidden="true"><CheckCircle size={62} weight="regular" /></div>}
+              <h2>{isRegistrationClosed ? "报名已结束" : "报名成功"}</h2>
+              <p>{isRegistrationClosed ? "可微信扫描下方二维码，等待下期开营。" : "你的报名信息已提交，请加入下方班级群并关注课程通知。"}</p>
             </div>
-            <img src={selectedGroup.qr} alt={`${selectedGroup.name}二维码`} width="240" height="240" />
-            <strong>使用微信扫码加入</strong>
-            <p>二维码已根据你的研究方向自动匹配</p>
-            <a className="line-button" href={selectedGroup.qr} download={selectedGroup.download}><DownloadSimple size={18} aria-hidden="true" />保存二维码</a>
+            <img src={resultQr} alt={resultQrAlt} width="240" height="240" />
+            {!isRegistrationClosed && <strong>使用微信扫码加入</strong>}
+            {!isRegistrationClosed && <p>二维码已根据你的研究方向自动匹配</p>}
+            <a className={isRegistrationClosed ? "line-button learner-closed-download" : "line-button"} href={resultQr} download={isRegistrationClosed ? "活动咨询微信二维码.png" : selectedGroup.download}><DownloadSimple size={18} aria-hidden="true" />保存二维码</a>
           </article>
         </section>
     );
@@ -176,7 +188,14 @@ export default function RegistrationForm() {
 
             <section className="form-block" id="research">
               <div className="form-title"><span>02</span><div><h2>学习与研究背景</h2><p>帮助我们安排更匹配的学习分组</p></div></div>
-              <fieldset className={errors.identity ? "field-error-group" : undefined}><legend>当前身份 <em aria-label="必填">*</em></legend><div className="choice-grid">{identities.map(item => <label key={item}><input required type="radio" name="identity" value={item} aria-invalid={Boolean(errors.identity)} aria-describedby={errors.identity ? "identity-error" : undefined} /><span>{item}</span></label>)}</div>{errors.identity && <p className="field-error" id="identity-error">{errors.identity}</p>}</fieldset>
+              <fieldset className={errors.identity ? "field-error-group" : undefined}><legend>当前身份 <em aria-label="必填">*</em></legend><div className="choice-grid">{identities.map(item => <label key={item}><input required type="radio" name="identity" value={item} checked={selectedIdentity === item} onChange={() => { setSelectedIdentity(item); setSelectedGrade(""); clearFieldError("identity"); clearFieldError("grade"); }} aria-invalid={Boolean(errors.identity)} aria-describedby={errors.identity ? "identity-error" : undefined} /><span>{item}</span></label>)}</div>{errors.identity && <p className="field-error" id="identity-error">{errors.identity}</p>}</fieldset>
+              {studentGrades[selectedIdentity] && (
+                <fieldset className={errors.grade ? "field-error-group grade-fieldset" : "grade-fieldset"}>
+                  <legend>当前年级 <em aria-label="必填">*</em></legend>
+                  <div className="choice-grid">{studentGrades[selectedIdentity].map((grade) => <label key={grade}><input required type="radio" name="grade" value={grade} checked={selectedGrade === grade} onChange={() => { setSelectedGrade(grade); clearFieldError("grade"); }} aria-invalid={Boolean(errors.grade)} aria-describedby={errors.grade ? "grade-error" : undefined} /><span>{grade}</span></label>)}</div>
+                  {errors.grade && <p className="field-error" id="grade-error">{errors.grade}</p>}
+                </fieldset>
+              )}
               <fieldset className={errors.field ? "field-error-group" : undefined}><legend>研究方向 <em aria-label="必填">*</em></legend><div className="choice-grid">{fields.map(item => <label key={item}><input required type="radio" name="field" value={item} aria-invalid={Boolean(errors.field)} aria-describedby={errors.field ? "field-error" : undefined} /><span>{item}</span></label>)}</div>{errors.field && <p className="field-error" id="field-error">{errors.field}</p>}</fieldset>
               <label className="single-field"><span>具体研究内容 <em aria-label="必填">*</em></span><input required name="topic" placeholder="示例：电池材料、蛋白质设计、气候预测" aria-invalid={Boolean(errors.topic)} aria-describedby={errors.topic ? "topic-error" : undefined} />{errors.topic && <small className="field-error" id="topic-error">{errors.topic}</small>}</label>
             </section>
@@ -186,7 +205,7 @@ export default function RegistrationForm() {
               <p className="form-prompt">{alignAi("您使用 AI 工具完成真实科研任务的能力")} <em aria-label="必填">*</em></p>
               <div className="ability-grid">{[
                 ["1", "不了解如何将 AI 应用于科研任务"], ["2", "了解部分工具，但需要较多指导才能使用"], ["3", "能够使用 AI 完成部分科研任务"], ["4", "能够独立使用 AI 完成大多数科研任务"], ["5", "能够形成稳定、可复用的 AI 科研工作流"],
-              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={`${score}分`} aria-describedby={errors.ability ? "ability-error" : undefined} /><span><strong>{score}分</strong>{alignAi(text)}</span></label>)}</div>
+              ].map(([score, text]) => <label key={score}><input required type="radio" name="ability" value={`${score}分`} aria-describedby={errors.ability ? "ability-error" : undefined} /><span><strong>{score}分</strong><span className="ability-description">{alignAi(text)}</span></span></label>)}</div>
               {errors.ability && <p className="field-error" id="ability-error">{errors.ability}</p>}
             </section>
 

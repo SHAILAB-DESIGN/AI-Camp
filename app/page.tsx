@@ -54,6 +54,27 @@ const benefits = [
   ["04", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.webp"],
 ];
 
+const organizers = {
+  primary: [
+    { name: "上海人工智能实验室", logo: "/上海人工智能实验室.png" },
+    { name: "上海市科学技术协会", logo: "/上海市科学技术协会.png" },
+  ],
+  supporting: [
+    { name: "智爱赛思社区", logo: "/智爱赛思.png" },
+    { name: "浦江科学社区", logo: "/浦江科学社区.png" },
+    { name: "黄大年茶思屋", logo: "/黄大年.png" },
+    { name: "蔻享学术", logo: "/蔻享学术.png" },
+    { name: "和鲸社区", logo: "/和鲸社区.png" },
+    { name: "书生Intern", logo: "/书生.png" },
+    { name: "OpendataLab", logo: "/opendatalab.png" },
+    { name: "司南评测体系", logo: "/司南.png" },
+    { name: "BioTender", logo: "/BioTender.png" },
+    { name: "极速发现", logo: "/极速发现.png" },
+  ],
+  media: [{ name: "BiliBili", logo: "/bilibili.png" }],
+  computing: [{ name: "北京超算MaaS平台", logo: "/北京超算.png" }],
+};
+
 export default function Home() {
   const [track, setTrack] = useState<Track>("workflow");
   const [shareOpen, setShareOpen] = useState(false);
@@ -226,10 +247,6 @@ export default function Home() {
               <div className="benefit-focus-media">
                 <img src={activeBenefitItem[3]} alt={`${activeBenefitItem[1]}插图`} loading="lazy" decoding="async" />
               </div>
-              <div className="benefit-focus-copy">
-                <h3>{alignAi(activeBenefitItem[1])}</h3>
-                <p>{activeBenefitItem[2]}</p>
-              </div>
             </article>
             <div className="benefit-options" aria-label="学员福利列表">
               {benefits.map(([no, title, text, image], index) => (
@@ -275,21 +292,40 @@ export default function Home() {
         <div className="container">
           <h2 className="organizations-title">组织单位</h2>
           <div className="org-primary-grid">
-            <article className="org-group">
-              <h3>主办单位</h3>
-              <div className="org-logo-tile"><img className="org-logo" src="/org-shlab.png?v=3" alt="上海人工智能实验室" /></div>
-            </article>
-            <article className="org-group">
-              <h3>联合主办单位</h3>
-              <div className="org-logo-tile"><img className="org-logo" src="/org-sast.png?v=3" alt="上海市科学技术协会" /></div>
-            </article>
+            {organizers.primary.map((organization, index) => (
+              <article className="org-group" key={organization.name}>
+                <h3>{index === 0 ? "主办单位" : "联合主办单位"}</h3>
+                <div className="org-logo-grid org-logo-grid-primary">
+                  <div className="org-logo-tile"><img className="org-logo" src={organization.logo} alt={organization.name} /></div>
+                </div>
+              </article>
+            ))}
           </div>
-          <div className="org-support-group">
+          <article className="org-support-group">
             <h3>协办单位</h3>
-            <div className="org-support-logos">
-              <div className="org-logo-tile"><img className="org-logo" src="/org-ai4science.png?v=3" alt="智爱赛思社区" /></div>
-              <div className="org-logo-tile"><img className="org-logo" src="/org-koushare.png?v=3" alt="蔻享学术" /></div>
+            <div className="org-logo-grid org-logo-grid-supporting">
+              {organizers.supporting.map((organization) => (
+                <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+              ))}
             </div>
+          </article>
+          <div className="org-secondary-grid">
+            <article className="org-support-group">
+              <h3>媒体支持</h3>
+              <div className="org-logo-grid org-logo-grid-secondary">
+                {organizers.media.map((organization) => (
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                ))}
+              </div>
+            </article>
+            <article className="org-support-group">
+              <h3>算力支持</h3>
+              <div className="org-logo-grid org-logo-grid-secondary">
+                {organizers.computing.map((organization) => (
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                ))}
+              </div>
+            </article>
           </div>
         </div>
       </section>
