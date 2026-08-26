@@ -30,7 +30,10 @@ export default function SiteFooter() {
         <div className="site-footer-column site-footer-contact">
           <b>联系我们</b>
           <a href="mailto:interndiscovery@pjlab.org.cn">interndiscovery@pjlab.org.cn</a>
-          <a href="https://discovery.intern-ai.org.cn/chat/">书生·端砚平台</a>
+          <div className="site-footer-consultation">
+            <img src="/activity-consultation-qr.png" alt="活动咨询微信二维码" width="104" height="104" />
+            <span>扫码咨询活动详情</span>
+          </div>
         </div>
       </div>
       <div className="container site-footer-bottom">

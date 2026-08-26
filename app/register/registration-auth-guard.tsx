@@ -11,12 +11,13 @@ export default function RegistrationAuthGuard({ children }: { children: ReactNod
     let activeRequest = true;
     const currentUrl = new URL(window.location.href);
     const preview = currentUrl.searchParams.get("preview");
-    if (process.env.NODE_ENV !== "production" && (preview === "logged-in" || preview === "registered")) {
+    if (process.env.NODE_ENV !== "production" && (preview === "logged-in" || preview === "registered" || preview === "closed")) {
       window.sessionStorage.setItem("ai-research-camp-preview-auth", "true");
     }
     const isDevelopmentPreview = process.env.NODE_ENV !== "production" && (
       preview === "logged-in" ||
       preview === "registered" ||
+      preview === "closed" ||
       window.sessionStorage.getItem("ai-research-camp-preview-auth") === "true"
     );
     if (isDevelopmentPreview) {

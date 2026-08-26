@@ -91,6 +91,9 @@ a { color: inherit; }
 .hero-primary-actions { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .hero-share-card { width: 100%; min-height: 58px; padding: 12px 14px; border-radius: 0; text-decoration: none; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: transform .15s ease, background .15s ease, border-color .15s ease; }
 .hero-register-card { border: 1px solid var(--ink); background: var(--ink); color: var(--paper-light); }
+.hero-register-card.is-closed { border-color: rgba(58,52,42,.26); background: rgba(246,245,240,.82); color: var(--ink-soft); cursor: default; }
+.hero-register-card.is-closed:hover { border-color: rgba(58,52,42,.26); background: rgba(246,245,240,.82); color: var(--ink-soft); transform: none; }
+.hero-register-card.is-closed:hover .hero-action-icon { transform: none; }
 .hero-share-card-primary { border: 1px solid var(--ink); background: var(--paper-neutral); color: var(--ink); }
 .hero-share-card-secondary { border: 1px solid var(--blue); background: transparent; color: var(--blue); }
 .hero-share-card:hover { transform: translateY(-2px); border-color: var(--blue); }
@@ -219,6 +222,9 @@ a { color: inherit; }
 .registration-actions { display: flex; align-items: stretch; justify-content: center; gap: 16px; margin-top: 34px; }
 .registration-button { min-width: 220px; min-height: 58px; padding: 15px 24px; border: 1px solid var(--paper-light); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 14px; transition: transform .15s ease, background .15s ease, color .15s ease; }
 .registration-button-solid { background: var(--paper-light); color: var(--ink); }
+.registration-button.is-closed { border-color: var(--paper-light); background: var(--paper-light); color: var(--ink-faint); cursor: not-allowed; }
+.registration-button.is-closed:hover { border-color: var(--paper-light); background: var(--paper-light); color: var(--ink-faint); transform: none; }
+.registration-button.is-closed:hover .hero-action-icon { transform: none; }
 .registration-button:hover .hero-action-icon { transform: scale(1.04); }
 .registration-button-solid:hover { background: var(--paper-neutral); border-color: var(--paper-neutral); }
 .registration-button:active { transform: translateY(1px); }
@@ -234,7 +240,7 @@ a { color: inherit; }
 .org-logo-tile { min-width: 0; min-height: 112px; padding: 16px 30px; background: rgba(255,255,255,.72); display: flex; align-items: center; justify-content: center; }
 .org-logo { display: block; width: 100%; max-width: 240px; height: auto; aspect-ratio: 300 / 80; object-fit: contain; object-position: center; }
 .site-footer { padding: 68px 0 0; border-top: 1px solid var(--rule); background: var(--paper-light); color: var(--ink-soft); }
-.site-footer-main { display: grid; grid-template-columns: minmax(300px, 1.6fr) repeat(4, minmax(110px, .72fr)); gap: 44px; align-items: start; }
+.site-footer-main { display: grid; grid-template-columns: minmax(300px, 1.6fr) repeat(4, minmax(110px, .72fr)); gap: 44px 16px; align-items: start; }
 .site-footer-brand img { display: block; width: 168px; }
 .site-footer-brand p { max-width: 390px; margin: 26px 0 18px; font-size: 14px; line-height: 1.9; }
 .site-footer-brand small { color: var(--ink-faint); font-size: 12px; line-height: 1.8; }
@@ -243,6 +249,9 @@ a { color: inherit; }
 .site-footer-column a { color: var(--ink-soft); font-size: 13px; text-decoration: none; }
 .site-footer-column a:hover { color: var(--blue); }
 .site-footer-contact a:first-of-type { color: var(--blue); }
+.site-footer-consultation { margin: 2px 0 4px; display: flex; flex-direction: column; align-items: flex-start; gap: 7px; }
+.site-footer-consultation img { width: 104px; height: 104px; padding: 5px; display: block; border: 1px solid var(--rule); background: #fff; object-fit: contain; }
+.site-footer-consultation span { color: var(--ink-faint); font-size: 12px; line-height: 1.5; }
 .site-footer-bottom { margin-top: 54px; padding: 22px 0 26px; border-top: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; gap: 24px; color: var(--ink-faint); font: 500 10px/1.5 var(--font-geist-mono), monospace; letter-spacing: .08em; text-transform: uppercase; }
 .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(23,27,31,.66); }
 .share-modal { width: min(640px, 100%); max-height: calc(100dvh - 40px); overflow: auto; padding: 56px 32px 32px; background: var(--paper-light); position: relative; }
@@ -274,6 +283,8 @@ a { color: inherit; }
 .register-hero h1.split-display-title { column-gap: .12em; }
 .register-required-note { margin: 16px 0 0 !important; color: var(--ink-soft); font-size: 13px; }
 .register-required-note em { color: var(--blue); font-style: normal; font-weight: 700; }
+.register-closed-note { display: none; margin: 6px 0 0; color: #8f3f31; font-size: 13px; font-weight: 600; }
+.registration-closed .register-closed-note { display: block; }
 .subpage-hero p:not(.section-mark) { max-width: 620px; color: var(--ink-soft); }
 .subpage-index { writing-mode: vertical-rl; color: var(--blue); font: 500 11px/1.4 var(--font-geist-mono), monospace; letter-spacing: .16em; border-left: 1px solid var(--blue); padding-left: 12px; }
 
@@ -334,6 +345,7 @@ a { color: inherit; }
 .consent-error .field-error { margin-top: 5px; }
 .form-actions { display: flex; justify-content: center; gap: 10px; margin-top: 22px; }
 .form-actions > * { width: 136px; }
+.primary-button:disabled { border-color: #a2a5a7; background: #a2a5a7; color: var(--paper-light); cursor: not-allowed; transform: none; }
 .login-gate-layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 48px; align-items: start; padding-top: 56px; padding-bottom: 80px; }
 .login-gate-steps { display: flex; flex-direction: column; border-top: 1px solid var(--ink); }
 .login-gate-steps b { padding: 14px 0; font-family: "Songti SC", "STSong", serif; font-size: 18px; }
@@ -571,6 +583,7 @@ a { color: inherit; }
   .site-footer-main { grid-template-columns: 1fr 1fr; gap: 34px 24px; }
   .site-footer-brand, .site-footer-contact { grid-column: 1 / -1; }
   .site-footer-brand img { width: 108px; }
+  .site-footer-consultation img { width: 96px; height: 96px; }
   .site-footer-brand p { margin-top: 20px; }
   .site-footer-bottom { margin-top: 40px; align-items: flex-start; flex-direction: column; gap: 8px; }
   .share-modal { padding: 52px 24px 24px; }

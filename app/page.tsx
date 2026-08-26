@@ -58,6 +58,7 @@ export default function Home() {
   const [shareStatus, setShareStatus] = useState("分享链接");
   const [activeSection, setActiveSection] = useState("courses");
   const [activeBenefit, setActiveBenefit] = useState(0);
+  const [registrationClosed, setRegistrationClosed] = useState(false);
 
   const shareCampLink = async () => {
     const url = window.location.href;
@@ -82,6 +83,9 @@ export default function Home() {
   useEffect(() => {
     let activeRequest = true;
     const currentUrl = new URL(window.location.href);
+    if (process.env.NODE_ENV !== "production" && currentUrl.searchParams.get("preview") === "closed") {
+      setRegistrationClosed(true);
+    }
     const queryPreviewAuthenticated = currentUrl.searchParams.get("preview") === "logged-in";
     if (process.env.NODE_ENV !== "production" && queryPreviewAuthenticated) {
       window.sessionStorage.setItem("ai-research-camp-preview-auth", "true");
@@ -154,7 +158,9 @@ export default function Home() {
                 <div><UsersThree size={25} weight="regular" aria-hidden="true" /><span>线上学习</span></div>
               </div>
               <div className="hero-primary-actions">
-                <a className="hero-share-card hero-register-card" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
+                {registrationClosed
+                  ? <span className="hero-share-card hero-register-card is-closed" aria-disabled="true"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>报名已截止</span></span>
+                  : <a className="hero-share-card hero-register-card" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
                 <button className="hero-share-card hero-share-card-primary" type="button" onClick={requestShare}><ShareNetwork className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>分享活动</span></button>
               </div>
             </div>
@@ -253,7 +259,9 @@ export default function Home() {
               <span aria-hidden="true">成为你的科研助手</span>
             </h2>
             <div className="registration-actions">
-              <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>
+              {registrationClosed
+                ? <span className="registration-button registration-button-solid is-closed" aria-disabled="true"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>报名已截止</span></span>
+                : <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
             </div>
           </div>
         </div>

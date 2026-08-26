@@ -51,6 +51,7 @@ const groupConfigs: Record<string, { name: string; qr: string; download: string 
 
 export default function RegistrationForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [closedPreview, setClosedPreview] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedField, setSelectedField] = useState("其他");
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -59,6 +60,7 @@ export default function RegistrationForm() {
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (closedPreview) return;
     const form = event.currentTarget;
     const formData = new FormData(form);
     const nextErrors: Record<string, string> = {};
@@ -104,8 +106,12 @@ export default function RegistrationForm() {
   }
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production" && new URL(window.location.href).searchParams.get("preview") === "registered") {
+    const preview = new URL(window.location.href).searchParams.get("preview");
+    if (process.env.NODE_ENV !== "production" && preview === "registered") {
       Promise.resolve().then(() => setSubmitted(true));
+    }
+    if (process.env.NODE_ENV !== "production" && preview === "closed") {
+      Promise.resolve().then(() => setClosedPreview(true));
     }
   }, []);
 
@@ -114,6 +120,12 @@ export default function RegistrationForm() {
     page?.classList.toggle("registration-complete", submitted);
     return () => page?.classList.remove("registration-complete");
   }, [submitted]);
+
+  useEffect(() => {
+    const page = document.querySelector("main");
+    page?.classList.toggle("registration-closed", closedPreview);
+    return () => page?.classList.remove("registration-closed");
+  }, [closedPreview]);
 
   if (submitted) {
     return (
@@ -181,7 +193,7 @@ export default function RegistrationForm() {
             </section>
 
             <label className={`consent${errors.consent ? " consent-error" : ""}`}><input required type="checkbox" name="consent" aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? "consent-error" : undefined} /><span>同意将报名信息用于上海人工智能实验室的活动通知、分班和课程运营 <em aria-label="必填">*</em>{errors.consent && <small className="field-error" id="consent-error">{errors.consent}</small>}</span></label>
-            <div className="form-actions"><button className="primary-button large" type="submit">提交报名</button></div>
+            <div className="form-actions"><button className="primary-button large" type="submit" disabled={closedPreview}>{closedPreview ? "报名已截止" : "提交报名"}</button></div>
           </form>
       </div>
   );

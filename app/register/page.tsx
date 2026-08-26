@@ -15,6 +15,7 @@ export default function RegisterPage() {
               <span className="hero-title-cn" aria-hidden="true">科研加速营报名</span>
             </h1>
             <p className="register-required-note">请填写所有带 <em aria-hidden="true">*</em> 的项目</p>
+            <p className="register-closed-note" role="status">报名已截止，当前表单仅供查看</p>
           </div>
         </div>
       </header>
