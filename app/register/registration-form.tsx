@@ -122,7 +122,7 @@ export default function RegistrationForm() {
     if (process.env.NODE_ENV !== "production" && preview === "registered") {
       Promise.resolve().then(() => setSubmitted(true));
     }
-    if (process.env.NODE_ENV !== "production" && preview === "closed") {
+    if (preview === "closed") {
       Promise.resolve().then(() => setClosedPreview(true));
     }
   }, []);

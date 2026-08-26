@@ -108,7 +108,7 @@ export default function Home() {
   useEffect(() => {
     let activeRequest = true;
     const currentUrl = new URL(window.location.href);
-    if (process.env.NODE_ENV !== "production" && currentUrl.searchParams.get("preview") === "closed") {
+    if (currentUrl.searchParams.get("preview") === "closed") {
       setRegistrationClosed(true);
     }
     const queryPreviewAuthenticated = currentUrl.searchParams.get("preview") === "logged-in";
