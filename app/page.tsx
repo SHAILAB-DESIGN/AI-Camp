@@ -84,6 +84,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("courses");
   const [activeBenefit, setActiveBenefit] = useState(0);
   const [registrationClosed, setRegistrationClosed] = useState(false);
+  const [registrationClosedPromptOpen, setRegistrationClosedPromptOpen] = useState(false);
 
   const shareCampLink = async () => {
     const url = window.location.href;
@@ -148,6 +149,13 @@ export default function Home() {
   }, [shareOpen]);
 
   useEffect(() => {
+    if (!registrationClosedPromptOpen) return;
+    const close = (event: KeyboardEvent) => event.key === "Escape" && setRegistrationClosedPromptOpen(false);
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [registrationClosedPromptOpen]);
+
+  useEffect(() => {
     const ids = ["courses", "schedule", "benefits", "audience", "registration"];
     const observer = new IntersectionObserver(
       (entries) => {
@@ -184,7 +192,7 @@ export default function Home() {
               </div>
               <div className="hero-primary-actions">
                 {registrationClosed
-                  ? <span className="hero-share-card hero-register-card is-closed" aria-disabled="true"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>报名已截止</span></span>
+                  ? <button className="hero-share-card hero-register-card" type="button" onClick={() => setRegistrationClosedPromptOpen(true)}><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></button>
                   : <a className="hero-share-card hero-register-card" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
                 <button className="hero-share-card hero-share-card-primary" type="button" onClick={requestShare}><ShareNetwork className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>分享活动</span></button>
               </div>
@@ -281,7 +289,7 @@ export default function Home() {
             </h2>
             <div className="registration-actions">
               {registrationClosed
-                ? <span className="registration-button registration-button-solid is-closed" aria-disabled="true"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>报名已截止</span></span>
+                ? <button className="registration-button registration-button-solid" type="button" onClick={() => setRegistrationClosedPromptOpen(true)}><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></button>
                 : <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
             </div>
           </div>
@@ -291,44 +299,55 @@ export default function Home() {
       <section className="organizations">
         <div className="container">
           <h2 className="organizations-title">组织单位</h2>
-          <div className="org-primary-grid">
+          <div className="org-unit-rows">
             {organizers.primary.map((organization, index) => (
-              <article className="org-group" key={organization.name}>
+              <article className="org-unit-row" key={organization.name}>
                 <h3>{index === 0 ? "主办单位" : "联合主办单位"}</h3>
-                <div className="org-logo-grid org-logo-grid-primary">
+                <div className="org-logo-grid org-logo-grid-single">
                   <div className="org-logo-tile"><img className="org-logo" src={organization.logo} alt={organization.name} /></div>
                 </div>
               </article>
             ))}
-            <article className="org-group">
+            <article className="org-unit-row org-support-row">
+              <h3>协办单位</h3>
+              <div className="org-logo-grid org-logo-grid-supporting">
+                {organizers.supporting.map((organization) => (
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                ))}
+              </div>
+            </article>
+            <article className="org-unit-row">
               <h3>媒体支持</h3>
-              <div className="org-logo-grid org-logo-grid-secondary">
+              <div className="org-logo-grid org-logo-grid-single">
                 {organizers.media.map((organization) => (
                   <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
                 ))}
               </div>
             </article>
-            <article className="org-group">
+            <article className="org-unit-row">
               <h3>算力支持</h3>
-              <div className="org-logo-grid org-logo-grid-secondary">
+              <div className="org-logo-grid org-logo-grid-single">
                 {organizers.computing.map((organization) => (
                   <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
                 ))}
               </div>
             </article>
           </div>
-          <article className="org-support-group">
-            <h3>协办单位</h3>
-            <div className="org-logo-grid org-logo-grid-supporting">
-              {organizers.supporting.map((organization) => (
-                <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
-              ))}
-            </div>
-          </article>
         </div>
       </section>
 
       <SiteFooter />
+
+      {registrationClosedPromptOpen && (
+        <div className="modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && setRegistrationClosedPromptOpen(false)}>
+          <section className="share-modal registration-closed-prompt" role="dialog" aria-modal="true" aria-labelledby="registration-closed-prompt-title">
+            <button className="modal-close" type="button" aria-label="关闭报名截止提示" onClick={() => setRegistrationClosedPromptOpen(false)}>×</button>
+            <h2 id="registration-closed-prompt-title">报名已截止</h2>
+            <p>扫码添加小助手好友，预报名下一期培训</p>
+            <img className="registration-closed-prompt-qr" src="/activity-consultation-qr.png" alt="小助手微信二维码" />
+          </section>
+        </div>
+      )}
 
       {shareOpen && (
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
