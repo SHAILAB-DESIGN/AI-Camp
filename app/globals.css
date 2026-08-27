@@ -238,11 +238,15 @@ a { color: inherit; }
 .org-unit-row h3 { margin: 0; color: var(--ink-faint); font-size: 12px; font-weight: 500; letter-spacing: .12em; text-align: center; }
 .org-logo-grid { width: 100%; display: grid; gap: 8px 18px; margin: 0; }
 .org-logo-grid-single { width: min(820px, 100%); margin-inline: auto; grid-template-columns: 1fr; }
+.org-logo-grid-joint { width: min(400px, 100%); margin-inline: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .org-logo-grid-supporting { width: min(820px, 100%); margin-inline: auto; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px 18px; }
 .org-logo-tile { min-width: 0; min-height: 60px; padding: 5px 10px; position: relative; display: flex; align-items: center; justify-content: center; }
-.org-logo-grid .org-logo-tile::before { content: ""; width: 1px; height: 30px; position: absolute; left: -9px; top: 50%; display: none; background: var(--rule); transform: translateY(-50%); }
+.org-logo-grid .org-logo-tile::before { content: ""; width: 1px; height: 20px; position: absolute; left: -9px; top: 50%; display: none; background: var(--rule); transform: translateY(-50%); }
+.org-logo-grid-joint .org-logo-tile + .org-logo-tile::before,
 .org-logo-grid-supporting .org-logo-tile:not(:nth-child(5n + 1))::before { display: block; }
 .org-logo { display: block; width: 165px; max-width: 100%; height: 40px; object-fit: contain; object-position: center; }
+.org-logo-bilibili { width: 180px; height: 44px; }
+.org-logo-paratera { width: 150px; height: 36px; }
 .site-footer { padding: 68px 0 0; border-top: 1px solid var(--rule); background: var(--paper-light); color: var(--ink-soft); }
 .site-footer-main { display: grid; grid-template-columns: minmax(300px, 1.6fr) repeat(4, minmax(110px, .72fr)); gap: 44px 16px; align-items: start; }
 .site-footer-brand img { display: block; width: 168px; }
@@ -590,11 +594,15 @@ a { color: inherit; }
   .org-unit-row h3 { text-align: center; font-size: var(--mobile-text-caption); }
   .org-logo-grid { gap: 10px; }
   .org-logo-grid-single { width: 100%; grid-template-columns: 1fr; }
+  .org-logo-grid-joint { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .org-logo-grid-supporting { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .org-logo-grid .org-logo-tile::before { display: none; }
+  .org-logo-grid-joint .org-logo-tile:nth-child(even)::before,
   .org-logo-grid-supporting .org-logo-tile:nth-child(even)::before { display: block; left: -5px; }
   .org-logo-tile { min-height: 58px; padding: 5px 8px; }
   .org-logo { width: 150px; height: 38px; }
+  .org-logo-bilibili { width: 165px; height: 42px; }
+  .org-logo-paratera { width: 135px; height: 34px; }
   .site-footer { padding-top: 44px; }
   .site-footer-main { grid-template-columns: 1fr 1fr; gap: 34px 24px; }
   .site-footer-brand, .site-footer-contact { grid-column: 1 / -1; }

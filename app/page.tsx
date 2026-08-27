@@ -58,6 +58,7 @@ const organizers = {
   primary: [
     { name: "上海人工智能实验室", logo: "/上海人工智能实验室.png" },
     { name: "上海市科学技术协会", logo: "/上海市科学技术协会.png" },
+    { name: "北京超算MaaS平台", logo: "/北京超算.png" },
   ],
   supporting: [
     { name: "智爱赛思社区", logo: "/智爱赛思.png" },
@@ -72,7 +73,7 @@ const organizers = {
     { name: "极速发现", logo: "/极速发现.png" },
   ],
   media: [{ name: "BiliBili", logo: "/bilibili.png" }],
-  computing: [{ name: "北京超算MaaS平台", logo: "/北京超算.png" }],
+  computing: [{ name: "并行科技", logo: "/并行科技.png" }],
 };
 
 export default function Home() {
@@ -300,14 +301,20 @@ export default function Home() {
         <div className="container">
           <h2 className="organizations-title">组织单位</h2>
           <div className="org-unit-rows">
-            {organizers.primary.map((organization, index) => (
-              <article className="org-unit-row" key={organization.name}>
-                <h3>{index === 0 ? "主办单位" : "联合主办单位"}</h3>
-                <div className="org-logo-grid org-logo-grid-single">
-                  <div className="org-logo-tile"><img className="org-logo" src={organization.logo} alt={organization.name} /></div>
-                </div>
-              </article>
-            ))}
+            <article className="org-unit-row">
+              <h3>主办单位</h3>
+              <div className="org-logo-grid org-logo-grid-single">
+                <div className="org-logo-tile"><img className="org-logo" src={organizers.primary[0].logo} alt={organizers.primary[0].name} /></div>
+              </div>
+            </article>
+            <article className="org-unit-row">
+              <h3>联合主办单位</h3>
+              <div className="org-logo-grid org-logo-grid-joint">
+                {organizers.primary.slice(1).map((organization) => (
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} /></div>
+                ))}
+              </div>
+            </article>
             <article className="org-unit-row org-support-row">
               <h3>协办单位</h3>
               <div className="org-logo-grid org-logo-grid-supporting">
@@ -320,7 +327,7 @@ export default function Home() {
               <h3>媒体支持</h3>
               <div className="org-logo-grid org-logo-grid-single">
                 {organizers.media.map((organization) => (
-                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo org-logo-bilibili" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
                 ))}
               </div>
             </article>
@@ -328,7 +335,7 @@ export default function Home() {
               <h3>算力支持</h3>
               <div className="org-logo-grid org-logo-grid-single">
                 {organizers.computing.map((organization) => (
-                  <div className="org-logo-tile" key={organization.name}><img className="org-logo" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
+                  <div className="org-logo-tile" key={organization.name}><img className="org-logo org-logo-paratera" src={organization.logo} alt={organization.name} loading="lazy" decoding="async" /></div>
                 ))}
               </div>
             </article>
