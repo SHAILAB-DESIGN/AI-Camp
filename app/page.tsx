@@ -58,7 +58,6 @@ const organizers = {
   primary: [
     { name: "上海人工智能实验室", logo: "/上海人工智能实验室.png" },
     { name: "上海市科学技术协会", logo: "/上海市科学技术协会.png" },
-    { name: "北京超算MaaS平台", logo: "/北京超算.png" },
   ],
   supporting: [
     { name: "智爱赛思社区", logo: "/智爱赛思.png" },
@@ -71,6 +70,7 @@ const organizers = {
     { name: "司南评测体系", logo: "/司南.png" },
     { name: "BioTender", logo: "/BioTender.png" },
     { name: "极速发现", logo: "/极速发现.png" },
+    { name: "北京超算MaaS平台", logo: "/北京超算.png" },
   ],
   media: [{ name: "BiliBili", logo: "/bilibili.png" }],
   computing: [{ name: "并行科技", logo: "/并行科技.png" }],
