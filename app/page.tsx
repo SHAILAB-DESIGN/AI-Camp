@@ -52,6 +52,7 @@ const benefits = [
   ["02", "课程结业证书", "符合结业要求即可获得证书", "/benefit-certificate.webp"],
   ["03", "免费算力额度", "支持课程实践与科研探索", "/benefit-compute.webp"],
   ["04", "社区周边礼品", "周边礼品及后续合作机会", "/benefit-community.webp"],
+  ["05", "工作内推机会", "为学员提供 AI4S 岗位内推", "/benefit-referral.png"],
 ];
 
 const organizers = {
