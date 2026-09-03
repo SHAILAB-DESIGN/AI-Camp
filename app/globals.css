@@ -453,20 +453,24 @@ a { color: inherit; }
 .current-user-rank { margin: 0 0 2px; color: var(--blue); font-size: 14px; line-height: 1.5; font-weight: 600; text-align: right; }
 .leaderboard-table { max-height: 3300px; overflow-y: auto; overscroll-behavior: contain; border-bottom: 1px solid var(--rule); }
 .leaderboard-table > div { display: grid; grid-template-columns: 90px minmax(0, 1fr) 120px; gap: 16px; padding: 14px 36px; align-items: center; border-bottom: 1px solid var(--rule); }
+.leaderboard-table > div:not(.table-head) { position: relative; border-bottom: 0; }
+.leaderboard-table > div:not(.table-head)::after { content: ""; position: absolute; right: 36px; bottom: 0; left: 36px; height: 1px; background: rgba(58,52,42,.09); }
 .leaderboard-table > div > * { min-height: 34px; display: flex; align-items: center; }
 .leaderboard-table > div > :nth-child(2) { padding-left: 16px; }
 .leaderboard-table .table-head { min-height: 52px; position: sticky; z-index: 2; top: 0; color: var(--paper-light); background: var(--blue); border-bottom-color: var(--blue); font-size: 12px; }
 .leaderboard-table .table-head > span:first-child { justify-content: center; text-align: center; }
 .leaderboard-table .table-head > span:last-child { justify-content: center; text-align: center; }
 .leaderboard-table .table-row { min-height: 60px; background: rgba(255,254,250,.72); }
-.leaderboard-table .top-rank { --rank-bg: rgba(12,60,128,.045); --rank-accent: rgba(12,60,128,.46); min-height: 68px; background: linear-gradient(90deg, var(--rank-bg), rgba(255,254,250,.76) 58%); }
-.leaderboard-table .rank-1 { --rank-bg: rgba(12,60,128,.14); --rank-accent: var(--blue-deep); }
-.leaderboard-table .rank-2 { --rank-bg: rgba(12,60,128,.09); --rank-accent: rgba(12,60,128,.68); }
-.leaderboard-table .rank-3 { --rank-bg: rgba(12,60,128,.055); --rank-accent: rgba(12,60,128,.42); }
-.leaderboard-table .top-rank > b { width: 40px; height: 43px; display: grid; place-items: center; border: 0; border-radius: 0; background: transparent; color: var(--rank-accent); font-size: 12px; line-height: 1; }
+.leaderboard-table .top-rank { --rank-accent: rgba(12,60,128,.4); min-height: 68px; background: rgba(255,254,250,.72); box-shadow: none; }
+.leaderboard-table .rank-1 { --rank-accent: var(--blue-deep); }
+.leaderboard-table .rank-2 { --rank-accent: rgba(12,60,128,.58); }
+.leaderboard-table .rank-3 { --rank-accent: rgba(12,60,128,.38); }
+.leaderboard-table .top-rank > b { width: 40px; height: 43px; display: grid; place-items: center; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--rank-accent); font-size: 12px; line-height: 1; }
 .leaderboard-table .rank-1 > b { background: transparent; color: var(--blue-deep); }
 .rank-icon { width: 36px; height: 43px; display: block; object-fit: contain; }
 .leaderboard-table .top-rank > span, .leaderboard-table .top-rank > strong { color: var(--blue-deep); font-weight: 700; }
+.leaderboard-table .top-rank > span { font-size: 17px; }
+.leaderboard-table .top-rank > strong { font-size: 18px; }
 .leaderboard-table .table-row > b { width: 100%; align-self: center; justify-content: center; text-align: center; color: var(--blue); font: 500 16px/1 var(--font-geist-mono), monospace; }
 .table-row strong { justify-content: center; text-align: center; }
 .leaderboard > small { display: block; margin-top: 14px; color: var(--ink-faint); }
@@ -662,6 +666,7 @@ a { color: inherit; }
   .leaderboard-head { align-items: flex-start; flex-direction: column; gap: 12px; }
   .current-user-rank { text-align: left; }
   .leaderboard-table > div { grid-template-columns: 60px 1fr 80px; padding-inline: 14px; }
+  .leaderboard-table > div:not(.table-head)::after { right: 14px; left: 14px; }
   .leaderboard-table > div > :nth-child(2) { padding-left: 8px; }
 }
 
