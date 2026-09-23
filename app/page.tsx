@@ -403,7 +403,6 @@ export default function Home() {
               {!certificateReady && <button className="primary-button large" type="submit">领取证书</button>}
               {certificateReady && (
                 <div className="certificate-preview" role="status">
-                  <p>证书预览</p>
                   <img src="/reward-certificate.webp" alt="AI 科研加速营结业证书预览" />
                   <button className="primary-button large" type="button" onClick={downloadCertificateFile}>下载证书</button>
                 </div>
