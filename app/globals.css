@@ -89,6 +89,9 @@ a { color: inherit; }
 .hero-meta > div + div::before { content: ""; width: 1px; height: 22px; position: absolute; left: 0; top: 50%; background: rgba(56,67,87,.34); transform: translateY(-50%); }
 .hero-meta svg { flex: 0 0 auto; color: var(--blue); }
 .hero-meta span { font-size: 17px; font-weight: 600; letter-spacing: .01em; }
+.hero-certificate-link { min-height: 48px; margin-left: 20px; padding: 10px 0 10px 20px; position: relative; display: inline-flex; align-items: center; gap: 10px; border: 0; border-left: 1px solid rgba(56,67,87,.34); background: transparent; color: var(--blue); font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; }
+.hero-certificate-link:hover { color: var(--blue-deep); text-decoration: underline; text-underline-offset: 4px; }
+.hero-certificate-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 .hero-primary-actions { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .hero-share-card { width: 100%; min-height: 58px; padding: 12px 14px; border-radius: 0; text-decoration: none; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: transform .15s ease, background .15s ease, border-color .15s ease; }
 .hero-register-card { border: 1px solid var(--ink); background: var(--ink); color: var(--paper-light); }
@@ -284,6 +287,16 @@ a { color: inherit; }
 .registration-closed-prompt h2 { margin: 0; }
 .registration-closed-prompt > p { max-width: 360px; margin: 12px auto 24px; color: var(--ink-soft); font-size: 15px; line-height: 1.8; }
 .registration-closed-prompt-qr { width: 220px; height: 220px; padding: 8px; display: block; margin: 0 auto; border: 1px solid var(--rule); background: var(--paper-neutral); object-fit: contain; }
+.certificate-modal { width: min(500px, 100%); padding: 46px 40px 40px; }
+.certificate-modal-icon { color: var(--blue); }
+.certificate-modal h2 { margin: 10px 0 12px; }
+.certificate-modal > p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.8; }
+.certificate-form { display: grid; gap: 8px; margin-top: 24px; }
+.certificate-form label { color: var(--ink); font-size: 14px; font-weight: 700; }
+.certificate-form input { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 0; background: var(--paper); color: var(--ink); font: inherit; }
+.certificate-form input:focus { outline: 2px solid var(--blue); outline-offset: 2px; border-color: var(--blue); }
+.certificate-form-error { color: #8f3f31; font-size: 13px; }
+.certificate-form-success { margin: 4px 0 0; color: var(--blue); font-size: 13px; }
 
 /* Independent activity pages */
 .subpage-hero { min-height: 330px; border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; background: var(--paper-light); }
@@ -620,6 +633,8 @@ a { color: inherit; }
   .share-login-prompt { padding-top: 40px; }
   .registration-closed-prompt { padding: 48px 24px 30px; }
   .registration-closed-prompt-qr { width: min(210px, 100%); height: auto; aspect-ratio: 1; }
+  .certificate-modal { padding: 44px 24px 30px; }
+  .hero-certificate-link { margin-left: 10px; padding-left: 12px; font-size: 14px; }
   .share-poster-preview { width: 100%; }
   .share-reward-summary { grid-template-columns: 22px minmax(0, 1fr); gap: 8px 10px; }
   .share-reward-summary a { grid-column: 2; }

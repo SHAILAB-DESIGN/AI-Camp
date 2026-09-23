@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { NotePencil } from "@phosphor-icons/react/dist/icons/NotePencil";
 import { ShareNetwork } from "@phosphor-icons/react/dist/icons/ShareNetwork";
 import { Gift } from "@phosphor-icons/react/dist/icons/Gift";
 import { CalendarDots } from "@phosphor-icons/react/dist/icons/CalendarDots";
 import { UsersThree } from "@phosphor-icons/react/dist/icons/UsersThree";
+import { Certificate } from "@phosphor-icons/react/dist/icons/Certificate";
 import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
@@ -87,6 +88,10 @@ export default function Home() {
   const [activeBenefit, setActiveBenefit] = useState(0);
   const [registrationClosed, setRegistrationClosed] = useState(false);
   const [registrationClosedPromptOpen, setRegistrationClosedPromptOpen] = useState(false);
+  const [certificateOpen, setCertificateOpen] = useState(false);
+  const [certificatePhone, setCertificatePhone] = useState("");
+  const [certificateError, setCertificateError] = useState("");
+  const [certificateDownloaded, setCertificateDownloaded] = useState(false);
 
   const shareCampLink = async () => {
     const url = window.location.href;
@@ -158,6 +163,30 @@ export default function Home() {
   }, [registrationClosedPromptOpen]);
 
   useEffect(() => {
+    if (!certificateOpen) return;
+    const close = (event: KeyboardEvent) => event.key === "Escape" && setCertificateOpen(false);
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [certificateOpen]);
+
+  const downloadCertificate = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!/^1[3-9][0-9]{9}$/.test(certificatePhone)) {
+      setCertificateError("请输入正确的 11 位手机号");
+      setCertificateDownloaded(false);
+      return;
+    }
+    setCertificateError("");
+    setCertificateDownloaded(true);
+    const link = document.createElement("a");
+    link.href = "/reward-certificate.webp";
+    link.download = "AI科研加速营-结业证书.webp";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  useEffect(() => {
     const ids = ["courses", "schedule", "benefits", "audience", "registration"];
     const observer = new IntersectionObserver(
       (entries) => {
@@ -191,6 +220,7 @@ export default function Home() {
               <div className="hero-meta" aria-label="活动时间与学习方式">
                 <div><CalendarDots size={25} weight="regular" aria-hidden="true" /><span>9月14日开营</span></div>
                 <div><UsersThree size={25} weight="regular" aria-hidden="true" /><span>线上学习</span></div>
+                <button className="hero-certificate-link" type="button" onClick={() => { setCertificateOpen(true); setCertificateError(""); setCertificateDownloaded(false); }}><Certificate size={25} weight="regular" aria-hidden="true" /><span>领取证书</span></button>
               </div>
               <div className="hero-primary-actions">
                 {registrationClosed
@@ -353,6 +383,24 @@ export default function Home() {
             <h2 id="registration-closed-prompt-title">报名已截止</h2>
             <p>扫码添加小助手好友，预报名下一期培训</p>
             <img className="registration-closed-prompt-qr" src="/activity-consultation-qr.png" alt="小助手微信二维码" />
+          </section>
+        </div>
+      )}
+
+      {certificateOpen && (
+        <div className="modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && setCertificateOpen(false)}>
+          <section className="share-modal certificate-modal" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
+            <button className="modal-close" type="button" aria-label="关闭领取证书弹窗" onClick={() => setCertificateOpen(false)}>×</button>
+            <Certificate className="certificate-modal-icon" size={34} weight="regular" aria-hidden="true" />
+            <h2 id="certificate-modal-title">领取结业证书</h2>
+            <p>请输入报名时使用的手机号，手机号仅用于本次下载，不会提交到服务器。</p>
+            <form className="certificate-form" onSubmit={downloadCertificate} noValidate>
+              <label htmlFor="certificate-phone">手机号</label>
+              <input id="certificate-phone" name="certificate-phone" type="tel" inputMode="numeric" autoComplete="tel" placeholder="请输入 11 位手机号" value={certificatePhone} onChange={(event) => { setCertificatePhone(event.target.value.replace(/\D/g, "").slice(0, 11)); setCertificateError(""); setCertificateDownloaded(false); }} aria-invalid={Boolean(certificateError)} aria-describedby={certificateError ? "certificate-phone-error" : undefined} />
+              {certificateError && <small id="certificate-phone-error" className="certificate-form-error">{certificateError}</small>}
+              <button className="primary-button large" type="submit">下载证书</button>
+              {certificateDownloaded && <p className="certificate-form-success" role="status">证书已开始下载。</p>}
+            </form>
           </section>
         </div>
       )}
