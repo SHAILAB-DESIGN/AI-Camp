@@ -91,7 +91,7 @@ export default function Home() {
   const [certificateOpen, setCertificateOpen] = useState(false);
   const [certificatePhone, setCertificatePhone] = useState("");
   const [certificateError, setCertificateError] = useState("");
-  const [certificateDownloaded, setCertificateDownloaded] = useState(false);
+  const [certificateReady, setCertificateReady] = useState(false);
 
   const shareCampLink = async () => {
     const url = window.location.href;
@@ -173,11 +173,14 @@ export default function Home() {
     event.preventDefault();
     if (!/^1[3-9][0-9]{9}$/.test(certificatePhone)) {
       setCertificateError("请输入正确的 11 位手机号");
-      setCertificateDownloaded(false);
+      setCertificateReady(false);
       return;
     }
     setCertificateError("");
-    setCertificateDownloaded(true);
+    setCertificateReady(true);
+  };
+
+  const downloadCertificateFile = () => {
     const link = document.createElement("a");
     link.href = "/reward-certificate.webp";
     link.download = "AI科研加速营-结业证书.webp";
@@ -220,7 +223,7 @@ export default function Home() {
               <div className="hero-meta" aria-label="活动时间与学习方式">
                 <div><CalendarDots size={25} weight="regular" aria-hidden="true" /><span>9月14日开营</span></div>
                 <div><UsersThree size={25} weight="regular" aria-hidden="true" /><span>线上学习</span></div>
-                <button className="hero-certificate-link" type="button" onClick={() => { setCertificateOpen(true); setCertificateError(""); setCertificateDownloaded(false); }}><Certificate size={25} weight="regular" aria-hidden="true" /><span>领取证书</span></button>
+                <button className="hero-certificate-link" type="button" onClick={() => { setCertificateOpen(true); setCertificateError(""); setCertificateReady(false); }}><Certificate size={25} weight="regular" aria-hidden="true" /><span>领取证书</span></button>
               </div>
               <div className="hero-primary-actions">
                 {registrationClosed
@@ -391,15 +394,20 @@ export default function Home() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && setCertificateOpen(false)}>
           <section className="share-modal certificate-modal" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
             <button className="modal-close" type="button" aria-label="关闭领取证书弹窗" onClick={() => setCertificateOpen(false)}>×</button>
-            <Certificate className="certificate-modal-icon" size={34} weight="regular" aria-hidden="true" />
             <h2 id="certificate-modal-title">领取结业证书</h2>
             <p>请输入报名时使用的手机号，手机号仅用于本次下载，不会提交到服务器。</p>
             <form className="certificate-form" onSubmit={downloadCertificate} noValidate>
               <label htmlFor="certificate-phone">手机号</label>
-              <input id="certificate-phone" name="certificate-phone" type="tel" inputMode="numeric" autoComplete="tel" placeholder="请输入 11 位手机号" value={certificatePhone} onChange={(event) => { setCertificatePhone(event.target.value.replace(/\D/g, "").slice(0, 11)); setCertificateError(""); setCertificateDownloaded(false); }} aria-invalid={Boolean(certificateError)} aria-describedby={certificateError ? "certificate-phone-error" : undefined} />
+              <input id="certificate-phone" name="certificate-phone" type="tel" inputMode="numeric" autoComplete="tel" placeholder="请输入 11 位手机号" value={certificatePhone} onChange={(event) => { setCertificatePhone(event.target.value.replace(/\D/g, "").slice(0, 11)); setCertificateError(""); setCertificateReady(false); }} aria-invalid={Boolean(certificateError)} aria-describedby={certificateError ? "certificate-phone-error" : undefined} />
               {certificateError && <small id="certificate-phone-error" className="certificate-form-error">{certificateError}</small>}
-              <button className="primary-button large" type="submit">下载证书</button>
-              {certificateDownloaded && <p className="certificate-form-success" role="status">证书已开始下载。</p>}
+              {!certificateReady && <button className="primary-button large" type="submit">领取证书</button>}
+              {certificateReady && (
+                <div className="certificate-preview" role="status">
+                  <p>证书预览</p>
+                  <img src="/reward-certificate.webp" alt="AI 科研加速营结业证书预览" />
+                  <button className="primary-button large" type="button" onClick={downloadCertificateFile}>下载证书</button>
+                </div>
+              )}
             </form>
           </section>
         </div>
