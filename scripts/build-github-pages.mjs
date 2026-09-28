@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -36,12 +36,18 @@ for (const [route, filename] of routes) {
   await writeFile(filename, makeStatic(await response.text()));
 }
 
-const manifest = JSON.parse(await readFile(join(output, ".vite", "manifest.json"), "utf8"));
-for (const entry of Object.values(manifest)) {
-  if (!entry.file?.endsWith(".css")) continue;
-  const cssPath = join(output, entry.file);
+// manifest 不一定列出 CSS 条目，直接扫描 assets 目录里的所有 CSS 文件，
+// 把其中的根路径 url(...) 统一加上 basePath 前缀（含带引号写法）
+const assetsDir = join(output, "assets");
+for (const file of await readdir(assetsDir)) {
+  if (!file.endsWith(".css")) continue;
+  const cssPath = join(assetsDir, file);
   const css = await readFile(cssPath, "utf8");
-  await writeFile(cssPath, css.replaceAll("url(/", `url(${basePath}/`));
+  const rewritten = css
+    .replaceAll("url(/", `url(${basePath}/`)
+    .replaceAll("url('/", `url('${basePath}/`)
+    .replaceAll('url("/', `url("${basePath}/`);
+  await writeFile(cssPath, rewritten);
 }
 
 await writeFile(join(output, ".nojekyll"), "");
