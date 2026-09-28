@@ -19,13 +19,13 @@ const routes = [
 
 function makeStatic(html) {
   return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
-    .replace(/<link\b[^>]*rel=["']modulepreload["'][^>]*>/gi, "")
-    .replace(/\b(href|src)=["']\/(?!\/)([^"']*)["']/gi, (_, attribute, path) => {
+    .replace(/\b(href|src)=["']\/(?!\/|AI-Camp[\/"'])([^"']*)["']/gi, (_, attribute, path) => {
       const suffix = path === "" ? "/" : `/${path}`;
       const normalized = suffix === "/register" || suffix === "/invitations" ? `${suffix}/` : suffix;
       return `${attribute}="${basePath}${normalized}"`;
     })
+    // 客户端水合入口是内联脚本里的 import("/assets/...")，属性重写覆盖不到
+    .replace(/import\(["']\/(?!\/|AI-Camp\/)/g, `import("${basePath}/`)
     .replace("</head>", '<meta name="robots" content="noindex" /></head>');
 }
 

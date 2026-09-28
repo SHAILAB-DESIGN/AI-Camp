@@ -11,6 +11,7 @@ import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
 import AsciiSectionMark from "./components/ascii-section-mark";
+import { assetUrl, routeUrl } from "./asset-url";
 
 type Track = "workflow" | "skill" | "cases";
 
@@ -196,7 +197,7 @@ export default function Home() {
 
   const downloadCertificateFile = () => {
     const link = document.createElement("a");
-    link.href = "/certificate-completion.webp";
+    link.href = assetUrl("/certificate-completion.webp");
     link.download = `AI科研加速营-${certificateType || "结业证书"}.webp`;
     document.body.appendChild(link);
     link.click();
@@ -242,7 +243,7 @@ export default function Home() {
               <div className="hero-primary-actions">
                 {registrationClosed
                   ? <button className="hero-share-card hero-register-card" type="button" onClick={() => setRegistrationClosedPromptOpen(true)}><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></button>
-                  : <a className="hero-share-card hero-register-card" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
+                  : <a className="hero-share-card hero-register-card" href={routeUrl("/register")}><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
                 <button className="hero-share-card hero-share-card-primary" type="button" onClick={requestShare}><ShareNetwork className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>分享活动</span></button>
               </div>
             </div>
@@ -322,7 +323,7 @@ export default function Home() {
           <div className="audience-card">
             <div className="ascii-section-title"><AsciiSectionMark /><h2>适合人群</h2></div>
             <p>欢迎<strong>高校硕博研究生</strong>、<strong>科研工作者</strong>和<strong>科技行业从业者</strong>报名，无需 {alignAi("AI 技术背景。")}</p>
-            <img className="audience-illustration" src="/audience-research-illustration.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <img className="audience-illustration" src={assetUrl("/audience-research-illustration.webp")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>
@@ -339,7 +340,7 @@ export default function Home() {
             <div className="registration-actions">
               {registrationClosed
                 ? <button className="registration-button registration-button-solid" type="button" onClick={() => setRegistrationClosedPromptOpen(true)}><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></button>
-                : <a className="registration-button registration-button-solid" href="/register"><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
+                : <a className="registration-button registration-button-solid" href={routeUrl("/register")}><NotePencil className="hero-action-icon" size={24} weight="regular" aria-hidden="true" /><span>立即报名</span></a>}
             </div>
           </div>
         </div>
@@ -399,7 +400,7 @@ export default function Home() {
             <button className="modal-close" type="button" aria-label="关闭报名截止提示" onClick={() => setRegistrationClosedPromptOpen(false)}>×</button>
             <h2 id="registration-closed-prompt-title">报名已截止</h2>
             <p>扫码添加小助手好友，预报名下一期培训</p>
-            <img className="registration-closed-prompt-qr" src="/activity-consultation-qr.png" alt="小助手微信二维码" />
+            <img className="registration-closed-prompt-qr" src={assetUrl("/activity-consultation-qr.png")} alt="小助手微信二维码" />
           </section>
         </div>
       )}
@@ -437,7 +438,7 @@ export default function Home() {
                 <p>查询成功，请下载领取您的证书</p>
                 <div className="certificate-preview">
                   <div className="certificate-preview-frame">
-                    <img src="/certificate-completion.webp" alt={`AI 科研加速营${certificateType}预览`} />
+                    <img src={assetUrl("/certificate-completion.webp")} alt={`AI 科研加速营${certificateType}预览`} />
                   </div>
                   <button className="primary-button large" type="button" onClick={downloadCertificateFile}>下载证书</button>
                 </div>
@@ -451,16 +452,16 @@ export default function Home() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setShareOpen(false)}>
           <section className="share-modal" role="dialog" aria-modal="true" aria-label="分享活动">
             <button className="modal-close" type="button" aria-label="关闭" onClick={() => setShareOpen(false)}>×</button>
-            <a className="share-poster-preview" href="/invitation-poster-virtual.webp?v=7" target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
-              <img src="/invitation-poster-virtual.webp?v=7" alt="AI 科研加速营邀请海报" />
+            <a className="share-poster-preview" href={assetUrl("/invitation-poster-virtual.webp?v=7")} target="_blank" rel="noreferrer" aria-label="查看邀请海报大图">
+              <img src={assetUrl("/invitation-poster-virtual.webp?v=7")} alt="AI 科研加速营邀请海报" />
             </a>
             <div className="share-reward-summary">
               <Gift className="share-reward-icon" size={24} weight="regular" aria-hidden="true" />
               <p>邀请好友报名，有机会获得社区周边、免费算力及研习召集人证书。</p>
-              <a href="/invitations">邀请排行 →</a>
+              <a href={routeUrl("/invitations")}>邀请排行 →</a>
             </div>
             <div className="share-modal-actions">
-              <a className="line-button large" href="/invitation-poster-virtual.webp?v=7" download="AI 科研加速营邀请海报.webp">保存长图</a>
+              <a className="line-button large" href={assetUrl("/invitation-poster-virtual.webp?v=7")} download="AI 科研加速营邀请海报.webp">保存长图</a>
               <button className="primary-button large" type="button" onClick={shareCampLink}>{shareStatus}</button>
             </div>
           </section>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AsciiSectionMark from "../components/ascii-section-mark";
+import { assetUrl } from "../asset-url";
 
 const sample = [
   ["01", "林晓宇", "12"],
@@ -86,7 +87,7 @@ const sample = [
   ["80", "陆予安", "0"],
 ];
 
-const rankIcons = ["/rank-1.svg", "/rank-2.svg", "/rank-3.svg"];
+const rankIcons = [assetUrl("/rank-1.svg"), assetUrl("/rank-2.svg"), assetUrl("/rank-3.svg")];
 
 type CurrentUser = { displayName: string; rank: number; invitations: number };
 

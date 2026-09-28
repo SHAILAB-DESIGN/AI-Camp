@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { List } from "@phosphor-icons/react/dist/icons/List";
 import { SignOut } from "@phosphor-icons/react/dist/icons/SignOut";
 import { X } from "@phosphor-icons/react/dist/icons/X";
+import { assetUrl, routeUrl } from "../asset-url";
 
 const pages = [
   { key: "home", label: "首页", href: "/" },
@@ -30,7 +31,7 @@ type AuthState =
 export default function SiteHeader({ active = "home" }: { active?: "home" | "register" | "invitations" }) {
   const isStaticPreview = process.env.NEXT_PUBLIC_GITHUB_PAGES === "true";
   const [auth, setAuth] = useState<AuthState>(isStaticPreview ? { status: "anonymous" } : { status: "loading" });
-  const [signInHref, setSignInHref] = useState(isStaticPreview ? "/register" : "");
+  const [signInHref, setSignInHref] = useState(isStaticPreview ? routeUrl("/register") : "");
   const [previewHref, setPreviewHref] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -109,10 +110,10 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
     <>
       <header className="topbar">
         <a className="brand" href="https://discovery.intern-ai.org.cn/chat/" aria-label="前往书生·端砚">
-          <img src="/intern-discovery-logo.png" alt="书生·端砚" />
+          <img src={assetUrl("/intern-discovery-logo.png")} alt="书生·端砚" />
         </a>
         <nav className="main-nav" aria-label="页面导航">
-          {pages.map((page) => <a className={active === page.key ? "active" : ""} href={page.href} aria-current={active === page.key ? "page" : undefined} key={page.key}>{page.label}</a>)}
+          {pages.map((page) => <a className={active === page.key ? "active" : ""} href={routeUrl(page.href)} aria-current={active === page.key ? "page" : undefined} key={page.key}>{page.label}</a>)}
         </nav>
         <div className="topbar-actions">
           {auth.status === "authenticated" ? (
@@ -146,11 +147,11 @@ export default function SiteHeader({ active = "home" }: { active?: "home" | "reg
           <button className="mobile-menu-backdrop" type="button" aria-label="关闭页面导航" onClick={() => setMobileMenuOpen(false)} />
           <aside className="mobile-menu-drawer" id="mobile-site-menu" aria-label="移动端页面导航">
             <div className="mobile-menu-head">
-              <a href="https://discovery.intern-ai.org.cn/chat/" aria-label="前往书生·端砚"><img src="/intern-discovery-logo.png" alt="书生·端砚" /></a>
+              <a href="https://discovery.intern-ai.org.cn/chat/" aria-label="前往书生·端砚"><img src={assetUrl("/intern-discovery-logo.png")} alt="书生·端砚" /></a>
               <button type="button" aria-label="关闭页面导航" onClick={() => setMobileMenuOpen(false)}><X size={24} aria-hidden="true" /></button>
             </div>
             <nav className="mobile-menu-links">
-              {pages.map((page) => <a className={active === page.key ? "active" : ""} href={page.href} aria-current={active === page.key ? "page" : undefined} key={page.key} onClick={() => setMobileMenuOpen(false)}>{page.label}</a>)}
+              {pages.map((page) => <a className={active === page.key ? "active" : ""} href={routeUrl(page.href)} aria-current={active === page.key ? "page" : undefined} key={page.key} onClick={() => setMobileMenuOpen(false)}>{page.label}</a>)}
             </nav>
             <div className="mobile-menu-account">
               {auth.status === "authenticated" ? (
