@@ -6,7 +6,7 @@ import { ShareNetwork } from "@phosphor-icons/react/dist/icons/ShareNetwork";
 import { Gift } from "@phosphor-icons/react/dist/icons/Gift";
 import { CalendarDots } from "@phosphor-icons/react/dist/icons/CalendarDots";
 import { UsersThree } from "@phosphor-icons/react/dist/icons/UsersThree";
-import { Certificate } from "@phosphor-icons/react/dist/icons/Certificate";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/icons/ArrowUpRight";
 import SiteFooter from "./components/site-footer";
 import SiteHeader from "./components/site-header";
 import SequenceStream from "./components/sequence-stream";
@@ -89,9 +89,10 @@ export default function Home() {
   const [registrationClosed, setRegistrationClosed] = useState(false);
   const [registrationClosedPromptOpen, setRegistrationClosedPromptOpen] = useState(false);
   const [certificateOpen, setCertificateOpen] = useState(false);
-  const [certificatePhone, setCertificatePhone] = useState("");
+  const [certificateType, setCertificateType] = useState("");
+  const [certificateKeyword, setCertificateKeyword] = useState("");
   const [certificateError, setCertificateError] = useState("");
-  const [certificateReady, setCertificateReady] = useState(false);
+  const [certificateQueried, setCertificateQueried] = useState(false);
 
   const shareCampLink = async () => {
     const url = window.location.href;
@@ -169,21 +170,34 @@ export default function Home() {
     return () => window.removeEventListener("keydown", close);
   }, [certificateOpen]);
 
-  const downloadCertificate = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!/^1[3-9][0-9]{9}$/.test(certificatePhone)) {
-      setCertificateError("请输入正确的 11 位手机号");
-      setCertificateReady(false);
-      return;
-    }
+  const certificateTypes = [
+    { name: "结业证书", desc: "完成课程学习与实践任务即可获得" },
+    { name: "优秀学员证书", desc: "课程表现优异的学员可获得" },
+    { name: "助教证书", desc: "担任课程助教可获得" },
+    { name: "研习召集人证书", desc: "邀请好友报名达标可获得" },
+  ];
+
+  const openCertificate = () => {
+    setCertificateType("");
+    setCertificateKeyword("");
     setCertificateError("");
-    setCertificateReady(true);
+    setCertificateQueried(false);
+    setCertificateOpen(true);
+  };
+
+  const queryCertificate = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const keyword = certificateKeyword.trim();
+    if (!keyword) { setCertificateError("请输入 UID、姓名或手机号"); return; }
+    if (/^\d+$/.test(keyword) && keyword.length === 11 && !/^1[3-9][0-9]{9}$/.test(keyword)) { setCertificateError("请输入正确的 11 位手机号"); return; }
+    setCertificateError("");
+    setCertificateQueried(true);
   };
 
   const downloadCertificateFile = () => {
     const link = document.createElement("a");
-    link.href = "/reward-certificate.webp";
-    link.download = "AI科研加速营-结业证书.webp";
+    link.href = "/certificate-completion.webp";
+    link.download = `AI科研加速营-${certificateType || "结业证书"}.webp`;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -223,7 +237,7 @@ export default function Home() {
               <div className="hero-meta" aria-label="活动时间与学习方式">
                 <div><CalendarDots size={25} weight="regular" aria-hidden="true" /><span>9月14日开营</span></div>
                 <div><UsersThree size={25} weight="regular" aria-hidden="true" /><span>线上学习</span></div>
-                <button className="hero-certificate-link" type="button" onClick={() => { setCertificateOpen(true); setCertificateError(""); setCertificateReady(false); }}><Certificate size={25} weight="regular" aria-hidden="true" /><span>领取证书</span></button>
+                <button className="hero-certificate-link" type="button" onClick={openCertificate}><ArrowUpRight size={25} weight="regular" aria-hidden="true" /><span>领取证书</span></button>
               </div>
               <div className="hero-primary-actions">
                 {registrationClosed
@@ -394,20 +408,41 @@ export default function Home() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && setCertificateOpen(false)}>
           <section className="share-modal certificate-modal" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
             <button className="modal-close" type="button" aria-label="关闭领取证书弹窗" onClick={() => setCertificateOpen(false)}>×</button>
-            <h2 id="certificate-modal-title">领取结业证书</h2>
-            <p>请输入报名时使用的手机号，手机号仅用于本次下载，不会提交到服务器。</p>
-            <form className="certificate-form" onSubmit={downloadCertificate} noValidate>
-              <label htmlFor="certificate-phone">手机号</label>
-              <input id="certificate-phone" name="certificate-phone" type="tel" inputMode="numeric" autoComplete="tel" placeholder="请输入 11 位手机号" value={certificatePhone} onChange={(event) => { setCertificatePhone(event.target.value.replace(/\D/g, "").slice(0, 11)); setCertificateError(""); setCertificateReady(false); }} aria-invalid={Boolean(certificateError)} aria-describedby={certificateError ? "certificate-phone-error" : undefined} />
-              {certificateError && <small id="certificate-phone-error" className="certificate-form-error">{certificateError}</small>}
-              {!certificateReady && <button className="primary-button large" type="submit">领取证书</button>}
-              {certificateReady && (
-                <div className="certificate-preview" role="status">
-                  <img src="/reward-certificate.webp" alt="AI 科研加速营结业证书预览" />
+            <h2 id="certificate-modal-title">{certificateType || "领取证书"}</h2>
+            {!certificateType && (
+              <>
+                <p>请选择要领取的证书类型</p>
+                <div className="certificate-type-grid">
+                  {certificateTypes.map((item, index) => (
+                    <button key={item.name} type="button" onClick={() => { setCertificateType(item.name); setCertificateError(""); }}><span>{String(index + 1).padStart(2, "0")}</span><h3>{item.name}</h3><p>{item.desc}</p></button>
+                  ))}
+                </div>
+              </>
+            )}
+            {certificateType && !certificateQueried && (
+              <>
+                <p>请输入领取信息，查询你的{certificateType}</p>
+                <form className="certificate-form" onSubmit={queryCertificate} noValidate>
+                  <input id="certificate-keyword" name="certificate-keyword" type="text" aria-label="UID、姓名或手机号" placeholder="输入 UID/姓名/手机号" value={certificateKeyword} onChange={(event) => { setCertificateKeyword(event.target.value); setCertificateError(""); }} aria-invalid={Boolean(certificateError)} aria-describedby={certificateError ? "certificate-form-error" : undefined} />
+                  {certificateError && <small id="certificate-form-error" className="certificate-form-error">{certificateError}</small>}
+                  <div className="certificate-form-actions">
+                    <button className="certificate-back" type="button" onClick={() => { setCertificateType(""); setCertificateError(""); }}>返回重选</button>
+                    <button className="primary-button large" type="submit">查询证书</button>
+                  </div>
+                </form>
+              </>
+            )}
+            {certificateType && certificateQueried && (
+              <>
+                <p>查询成功，请下载领取您的证书</p>
+                <div className="certificate-preview">
+                  <div className="certificate-preview-frame">
+                    <img src="/certificate-completion.webp" alt={`AI 科研加速营${certificateType}预览`} />
+                  </div>
                   <button className="primary-button large" type="button" onClick={downloadCertificateFile}>下载证书</button>
                 </div>
-              )}
-            </form>
+              </>
+            )}
           </section>
         </div>
       )}
